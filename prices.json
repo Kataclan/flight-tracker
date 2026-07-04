@@ -1,1 +1,62 @@
-{}
+{
+  "route": "Barcelona (BCN) - Japon (NGO/HND/NRT), ida sep 2026 / vuelta oct 2026",
+  "search_window": {
+    "outbound_dates": ["2026-09-16", "2026-09-17"],
+    "return_dates": ["2026-10-13", "2026-10-14", "2026-10-15"]
+  },
+  "constraints": "Max 1 escala por trayecto, escalas de menos de 5 horas",
+  "last_updated": "2026-07-04",
+  "options": {
+    "open_jaw_single_ticket": {
+      "label": "Open-jaw/multi-city en un solo billete: BCN->NGO + HND/NRT->BCN",
+      "best_price_eur": 1150,
+      "best_price_date": "2026-07-04",
+      "history": [
+        {
+          "date": "2026-07-04",
+          "price_eur": 1150,
+          "price_range_eur": [950, 1350],
+          "airlines": "Finnair, via Helsinki (HEL)",
+          "stops": "1 escala cada trayecto (HEL)",
+          "duration": "~17-19h por trayecto",
+          "notes": "Estimacion, sin cotizacion en vivo (Google Flights/Skyscanner no devolvieron precio exacto). Finnair es la unica aerolinea con conexion real de 1 escala a Nagoya (HEL-NGO estacional may-oct 2026). Alternativa: Lufthansa via Frankfurt (~1100-1500 EUR).",
+          "is_estimate": true
+        }
+      ]
+    },
+    "two_separate_one_way_tickets": {
+      "label": "Dos billetes solo ida por separado: BCN->NGO y HND/NRT->BCN",
+      "best_price_eur": 1900,
+      "best_price_date": "2026-07-04",
+      "history": [
+        {
+          "date": "2026-07-04",
+          "price_eur": 1900,
+          "price_range_eur": [1750, 2050],
+          "airlines": "BCN->NGO: Finnair via Helsinki (~850 EUR); HND/NRT->BCN: Turkish Airlines via Estambul (~1050 EUR)",
+          "stops": "1 escala en cada tramo",
+          "duration": "BCN->NGO ~18-20h; HND/NRT->BCN duracion similar",
+          "notes": "Estimacion por tramos (suma de dos one-way). Los billetes solo ida internacionales llevan fuerte penalizacion de precio al no tener descuento ida-vuelta.",
+          "is_estimate": true
+        }
+      ]
+    },
+    "round_trip_plus_shinkansen": {
+      "label": "Round-trip BCN<->HND/NRT + Shinkansen Tokio->Nagoya (~100 EUR)",
+      "best_price_eur": 950,
+      "best_price_date": "2026-07-04",
+      "history": [
+        {
+          "date": "2026-07-04",
+          "price_eur": 950,
+          "price_range_eur": [800, 1050],
+          "airlines": "Qatar Airways via Doha (mejor opcion); alternativas: Finnair via Helsinki, Turkish Airlines via Estambul",
+          "stops": "1 escala cada trayecto",
+          "duration": "~16-18h por trayecto en vuelo, mas tren Tokio->Nagoya ~1h40",
+          "notes": "Incluye ~100 EUR de Shinkansen Tokio->Nagoya. Estimacion, sin cotizacion en vivo. Qatar esta ampliando su nueva ruta Doha-Haneda durante 2026.",
+          "is_estimate": true
+        }
+      ]
+    }
+  }
+}
