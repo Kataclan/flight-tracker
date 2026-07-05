@@ -1,0 +1,39 @@
+{
+  "currency": "EUR",
+  "passengers": 1,
+  "outbound_dates": ["2026-09-16", "2026-09-17"],
+  "return_dates": ["2026-10-13", "2026-10-14", "2026-10-15"],
+  "max_stops_per_leg": 1,
+  "max_layover_minutes": 300,
+  "thresholds": {
+    "drop_vs_best_eur": 50,
+    "buy_below_eur": 650,
+    "weekly_summary_weekday": 0
+  },
+  "combos": {
+    "1_bcn-ngo_ngo-bcn": {
+      "label": "BCN→NGO ida / NGO→BCN vuelta",
+      "outbound": {"from": "BCN", "to": "NGO"},
+      "return": {"from": "NGO", "to": "BCN"},
+      "transfer_note": "vuelta desde NGO = traslado Minakami→Nagoya post-festival"
+    },
+    "2_bcn-ngo_tyo-bcn": {
+      "label": "BCN→NGO ida / HND-NRT→BCN vuelta",
+      "outbound": {"from": "BCN", "to": "NGO"},
+      "return": {"from": "TYO", "to": "BCN"},
+      "transfer_note": "vuelta desde Tokio = traslado Minakami→Tokio post-festival"
+    },
+    "3_bcn-tyo_tyo-bcn": {
+      "label": "BCN→HND-NRT ida / HND-NRT→BCN vuelta",
+      "outbound": {"from": "BCN", "to": "TYO"},
+      "return": {"from": "TYO", "to": "BCN"},
+      "transfer_note": "ida llega a Tokio = traslado Tokio→destino inicial; vuelta = traslado Minakami→Tokio"
+    },
+    "4_bcn-tyo_ngo-bcn": {
+      "label": "BCN→HND-NRT ida / NGO→BCN vuelta",
+      "outbound": {"from": "BCN", "to": "TYO"},
+      "return": {"from": "NGO", "to": "BCN"},
+      "transfer_note": "ida llega a Tokio; vuelta desde NGO = traslado Minakami→Nagoya post-festival"
+    }
+  }
+}
