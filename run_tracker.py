@@ -27,12 +27,24 @@ ROOT = Path(__file__).parent
 log = logging.getLogger("tracker")
 
 
-def merge_two_oneways(out_opts: list[Itinerary], ret_opts: list[Itinerary],
+def merge_two_oneways(cfg: dict, out_opts: list[Itinerary], ret_opts: list[Itinerary],
                       max_stops: int, max_layover: int) -> Itinerary | None:
-    o = filters.best(out_opts, max_stops, max_layover)
-    r = filters.best(ret_opts, max_stops, max_layover)
-    if not o or not r:
+    """Cheapest acceptable outbound+return pair whose dates respect trip_days."""
+    outs = [i for i in out_opts if i.price_eur and
+            filters.acceptable(i, max_stops, max_layover)]
+    rets = [i for i in ret_opts if i.price_eur and
+            filters.acceptable(i, max_stops, max_layover)]
+    pair = None
+    for o in outs:
+        for r in rets:
+            if not plan.trip_days_ok(cfg, o.journeys[0].date, r.journeys[0].date):
+                continue
+            if pair is None or o.price_eur + r.price_eur < \
+                    pair[0].price_eur + pair[1].price_eur:
+                pair = (o, r)
+    if pair is None:
         return None
+    o, r = pair
     return Itinerary(
         source=o.source if o.source == r.source else f"{o.source} + {r.source}",
         price_eur=o.price_eur + r.price_eur,
@@ -168,7 +180,7 @@ def main() -> int:
         ret_leg = f"{combo['return']['from']}-{combo['return']['to']}"
         out_opts = [i for (lk, _d), v in oneways.items() if lk == out_leg for i in v]
         ret_opts = [i for (lk, _d), v in oneways.items() if lk == ret_leg for i in v]
-        best_two = merge_two_oneways(out_opts, ret_opts, max_stops, max_layover)
+        best_two = merge_two_oneways(cfg, out_opts, ret_opts, max_stops, max_layover)
         entry2 = report.describe(best_two)
         comparisons[combo_id]["two_oneways"] = history.record(
             hist, run_date, combo_id, "two_oneways", entry2)

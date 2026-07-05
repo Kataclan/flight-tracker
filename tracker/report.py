@@ -6,17 +6,28 @@ import datetime as dt
 from .models import Itinerary
 
 
+def _dm(ts: str) -> str:
+    """'2026-09-16 10:55' -> '16/09 10:55'"""
+    try:
+        return f"{ts[8:10]}/{ts[5:7]} {ts[11:16]}".strip()
+    except Exception:
+        return ts
+
+
 def _fmt_journey(it: Itinerary) -> str:
     parts = []
     for j in it.journeys:
         route = " → ".join([j.segments[0].origin] +
                            [s.destination for s in j.segments])
+        times = f"sale {_dm(j.segments[0].depart)}, llega {_dm(j.segments[-1].arrive)}"
         lay = j.max_layover_min
         dur = f"{j.duration_min // 60}h{j.duration_min % 60:02d}" if j.duration_min else "?"
-        parts.append(f"{route} ({dur}" +
+        parts.append(f"{route} · {times} ({dur}" +
                      (f", escala {lay // 60}h{lay % 60:02d}" if lay else ", directo") + ")")
-    scope = "" if it.detail_scope == "full" else " · detalle solo ida"
-    return "; ".join(parts) + scope
+    if it.detail_scope != "full" and it.searched_dates and len(it.searched_dates) > 1:
+        rd = it.searched_dates[-1]
+        parts.append(f"vuelta {rd[8:10]}/{rd[5:7]} (horario n/d, precio total incluido)")
+    return "; ".join(parts)
 
 
 def describe(it: Itinerary | None) -> dict | None:

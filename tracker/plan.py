@@ -1,7 +1,17 @@
 """Build the query plan from config: which searches to run for each combo/modality."""
 from __future__ import annotations
 
+from datetime import date
 from itertools import product
+
+
+def trip_days_ok(cfg: dict, out_date: str, ret_date: str) -> bool:
+    """True if the out/ret pair respects the optional trip_days {min,max} config."""
+    td = cfg.get("trip_days")
+    if not td:
+        return True
+    n = (date.fromisoformat(ret_date) - date.fromisoformat(out_date)).days
+    return td["min"] <= n <= td["max"]
 
 
 def single_ticket_queries(cfg: dict, quick: bool = False) -> list[dict]:
@@ -14,6 +24,8 @@ def single_ticket_queries(cfg: dict, quick: bool = False) -> list[dict]:
         o, r = combo["outbound"], combo["return"]
         is_rt = o["from"] == r["to"] and o["to"] == r["from"]
         for od, rd in product(out_dates, ret_dates):
+            if not trip_days_ok(cfg, od, rd):
+                continue
             queries.append({
                 "combo_id": combo_id,
                 "modality": "single",

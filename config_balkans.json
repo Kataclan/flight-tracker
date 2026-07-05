@@ -3,8 +3,9 @@
   "title": "Vuelos BCN ↔ Belgrado / Macedonia",
   "currency": "EUR",
   "passengers": 2,
-  "outbound_dates": ["2026-09-05", "2026-09-06", "2026-09-07"],
+  "outbound_dates": ["2026-09-07", "2026-09-08", "2026-09-09"],
   "return_dates": ["2026-09-12", "2026-09-13", "2026-09-14"],
+  "trip_days": {"min": 5, "max": 6},
   "max_stops_per_leg": 1,
   "max_layover_minutes": 300,
   "thresholds": {

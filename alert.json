@@ -2,8 +2,9 @@
  "date": "2026-07-05",
  "send_email": false,
  "reasons": [],
- "recommendation": "Esperar: mínimo hoy 843€, sin bajada significativa ni precio bajo el umbral de 650€.",
+ "recommendation": "Esperar: mínimo hoy 733€, sin bajada significativa ni precio bajo el umbral de 650€.",
  "source_status": {
-  "google-flights": "OK (36 itinerarios)"
+  "trip.com": "OK (279 itinerarios, 27/34 búsquedas vacías)",
+  "google-flights": "OK (140 itinerarios)"
  }
 }

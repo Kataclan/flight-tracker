@@ -1,198 +1,393 @@
 {
-  "route": "Barcelona (BCN) - Japon (NGO/HND/NRT), ida sep 2026 / vuelta oct 2026",
-  "search_window": {
-    "outbound_dates": ["2026-09-16", "2026-09-17"],
-    "return_dates": ["2026-10-13", "2026-10-14", "2026-10-15"]
-  },
-  "constraints": "Max 1 escala por trayecto, escalas de menos de 5 horas",
-  "last_updated": "2026-07-04",
-  "methodology_note": "Desde 2026-07-04 se rastrean las 4 combinaciones de aeropuertos pedidas, cada una en dos modalidades (billete unico vs dos billetes solo-ida por separado). Intento diario: Trip.com primero, luego Google Flights/Kiwi/Skyscanner. NOTA IMPORTANTE: en la run de 2026-07-04, Trip.com devolvio un challenge anti-bot en su motor de busqueda real, y Google Flights/Kiwi.com/Skyscanner son SPAs que no devuelven tarifas via fetch estatico (se probo tambien un navegador headless con Chromium+Playwright, pero el proxy de red del entorno resetea las conexiones HTTPS salientes hacia esos dominios via navegador, aunque curl si tiene acceso). Por tanto TODOS los precios de hoy son estimaciones derivadas de paginas de aterrizaje/cache de esos mismos sitios (Trip.com route pages, Expedia, Kiwi.com route pages), no cotizaciones en vivo confirmadas. Se marcan is_estimate=true y confidence=\"low\"/\"medium\" segun el caso. Verificar manualmente antes de comprar.",
-  "alerts": [
-    {
-      "date": "2026-07-04",
-      "note": "Los Juegos Asiaticos (20th Asian Games) se celebran en Aichi-Nagoya del 19 de septiembre al 4 de octubre de 2026. El vuelo de ida (16/17 sep) cae 2-3 dias antes de la inauguracion, lo que puede presionar al alza los precios y la disponibilidad de vuelos hacia NGO en esas fechas."
-    }
+ "route": "Barcelona (BCN) - Japon (NGO/HND/NRT), ida sep 2026 / vuelta oct 2026",
+ "search_window": {
+  "outbound_dates": [
+   "2026-09-16",
+   "2026-09-17"
   ],
-  "combinations": {
-    "combo_1_bcn_ngo__ngo_bcn": {
-      "label": "1. BCN->NGO ida / NGO->BCN vuelta",
-      "ground_transfer_notes": "Sin traslado adicional: vuelo directo desde/hacia Nagoya en ambos extremos del viaje.",
-      "single_ticket": {
-        "best_price_eur": 720,
-        "best_price_date": "2026-07-04",
-        "history": [
-          {
-            "date": "2026-07-04",
-            "price_eur": 720,
-            "price_range_eur": [650, 780],
-            "airlines": "Finnair, via Helsinki (HEL) - unica aerolinea con ruta directa Europa-Nagoya (estacional may-oct 2026), conecta con sus propios vuelos BCN-HEL",
-            "stops": "1 escala cada trayecto (HEL)",
-            "duration": "~16-19h por trayecto (incluye escala)",
-            "interlining": "Billete unico, una sola aerolinea (Finnair), conexion protegida (no es OTA virtual interlining)",
-            "source": "Sin cotizacion en vivo. Estimacion basada en tarifa real comparable (Liubliana-Nagoya via Helsinki, Finnair, 720-780 EUR RT, reservado nov 2025 segun EX-YU Aviation) y en el precio de referencia del usuario (~670 EUR visto en Trip.com)",
-            "is_estimate": true,
-            "confidence": "medium",
-            "caveat": "Verificar en finnair.com que la conexion NGO-HEL-BCN en las fechas exactas de vuelta (13/14/15 oct) se mantenga por debajo de 5h; el horario varia segun el dia."
-          }
-        ]
-      },
-      "two_one_way_tickets": {
-        "best_price_eur": 1150,
-        "best_price_date": "2026-07-04",
-        "history": [
-          {
-            "date": "2026-07-04",
-            "price_eur": 1150,
-            "price_range_eur": [1000, 1300],
-            "airlines": "Finnair via Helsinki, ambos trayectos (BCN->NGO y NGO->BCN comprados como billetes solo-ida independientes)",
-            "stops": "1 escala en cada tramo (HEL)",
-            "duration": "~16-19h por trayecto",
-            "interlining": "Cada uno es un billete solo-ida de una sola aerolinea (protegido en su propio tramo), pero son dos reservas independientes entre si",
-            "source": "Sin cotizacion en vivo. Extrapolado desde la estimacion de ida y vuelta (escenario A) asumiendo penalizacion tipica de billetes solo-ida internacionales (1.4-1.7x del precio RT dividido)",
-            "is_estimate": true,
-            "confidence": "low"
-          }
-        ]
-      }
-    },
-    "combo_2_bcn_ngo__hnd_nrt_bcn": {
-      "label": "2. BCN->NGO ida / HND o NRT->BCN vuelta (open-jaw)",
-      "ground_transfer_notes": "Sin traslado adicional de pago: se aterriza en Nagoya y se sale desde Tokio (HND/NRT), sin necesidad de volver a Nagoya para el vuelo de vuelta. El desplazamiento interno Nagoya->...->Tokio durante el viaje no esta incluido.",
-      "single_ticket": {
-        "best_price_eur": 1050,
-        "best_price_date": "2026-07-04",
-        "history": [
-          {
-            "date": "2026-07-04",
-            "price_eur": 1050,
-            "price_range_eur": [900, 1300],
-            "airlines": "Finnair multi-city/open-jaw: BCN-HEL-NGO ida, HND o NRT-HEL-BCN vuelta (Finnair confirma soporte de open-jaw en su propia web)",
-            "stops": "1 escala cada trayecto (HEL)",
-            "duration": "Ida ~17-19h; vuelta ~16-18h",
-            "interlining": "Billete unico, una sola aerolinea (Finnair), conexion protegida",
-            "source": "Sin cotizacion en vivo (Trip.com bloqueo anti-bot, Google Flights/Kiwi/Skyscanner sin datos via fetch). Estimacion basada en tarifas cacheadas de Expedia/Trip.com para los tramos sueltos equivalentes",
-            "is_estimate": true,
-            "confidence": "low",
-            "caveat": "Los Juegos Asiaticos en Nagoya (19 sep-4 oct 2026) pueden presionar el precio al alza; revisar antes de fechas cercanas al 19 sep."
-          }
-        ]
-      },
-      "two_one_way_tickets": {
-        "best_price_eur": 1075,
-        "best_price_date": "2026-07-04",
-        "history": [
-          {
-            "date": "2026-07-04",
-            "price_eur": 1075,
-            "price_range_eur": [900, 1250],
-            "airlines": "BCN->NGO: Finnair via Helsinki; HND/NRT->BCN: varias opciones (Finnair via HEL, Qatar via DOH, Turkish via IST, Air France/KLM/Lufthansa/Swiss/ITA), HND y NRT con precios similares",
-            "stops": "1 escala en cada tramo",
-            "duration": "Ida ~17-19h; vuelta ~16-18h",
-            "interlining": "Dos billetes solo-ida independientes, cada uno de una sola aerolinea (protegido dentro de su propio tramo)",
-            "source": "Sin cotizacion en vivo. Estimacion desde precios 'desde' cacheados de Expedia (BCN-NGO ~480 EUR, HND/NRT-BCN ~385-410 EUR) mas ajuste al alza por Juegos Asiaticos",
-            "is_estimate": true,
-            "confidence": "low"
-          }
-        ]
-      }
-    },
-    "combo_3_bcn_hndnrt__hndnrt_bcn": {
-      "label": "3. BCN->HND/NRT ida / HND o NRT->BCN vuelta",
-      "ground_transfer_notes": "Sin traslado adicional: vuelo directo desde/hacia Tokio en ambos extremos (se puede entrar por un aeropuerto de Tokio y salir por el otro sin coste de traslado significativo, ambos estan conectados por tren/monorail urbano).",
-      "single_ticket": {
-        "best_price_eur": 740,
-        "best_price_date": "2026-07-04",
-        "history": [
-          {
-            "date": "2026-07-04",
-            "price_eur": 740,
-            "price_range_eur": [700, 780],
-            "airlines": "Air China via Beijing (PEK), conexion de ~4-5h cada trayecto; alternativa Etihad via Abu Dhabi (~2h conexion, precio algo mas alto)",
-            "stops": "1 escala cada trayecto",
-            "duration": "~18-19h por trayecto (incluye escala)",
-            "interlining": "Billete unico, una sola aerolinea, conexion protegida",
-            "source": "Trip.com (es.trip.com/flights/barcelona-to-tokyo/), fila real encontrada: Air China, 3-9 sep, 578 EUR (viaje corto de referencia) y medias mensuales cacheadas (sep 877 EUR, oct 812 EUR). Ajustado a la baja para fechas y duracion de viaje reales. Precio final es estimacion, no cotizacion exacta para estas fechas",
-            "is_estimate": true,
-            "confidence": "medium"
-          }
-        ]
-      },
-      "two_one_way_tickets": {
-        "best_price_eur": 775,
-        "best_price_date": "2026-07-04",
-        "history": [
-          {
-            "date": "2026-07-04",
-            "price_eur": 775,
-            "price_range_eur": [750, 800],
-            "airlines": "Air China via Beijing, ambos trayectos, comprados como solo-ida independientes",
-            "stops": "1 escala en cada tramo (~4-5h)",
-            "duration": "~18-19h por trayecto",
-            "interlining": "Dos billetes solo-ida independientes, cada uno de una sola aerolinea",
-            "source": "Trip.com (es.trip.com), filas reales cacheadas: BCN->TYO desde 357-368 EUR (Air China/Etihad, fechas cercanas ago-sep), TYO->BCN estimado por simetria en 390-420 EUR (China Eastern encontrado pero con escalas >5h, descartado)",
-            "is_estimate": true,
-            "confidence": "low"
-          }
-        ]
-      }
-    },
-    "combo_4_bcn_hndnrt__ngo_bcn": {
-      "label": "4. BCN->HND/NRT ida / NGO->BCN vuelta (open-jaw)",
-      "ground_transfer_notes": "Vuelta desde NGO implica traslado terrestre desde donde termine el viaje (zona de Tokio/Kanto) hasta Nagoya para el vuelo de salida (p.ej. Shinkansen Tokio->Nagoya ~1h40, coste no incluido en el precio del vuelo).",
-      "single_ticket": {
-        "best_price_eur": 685,
-        "best_price_date": "2026-07-04",
-        "history": [
-          {
-            "date": "2026-07-04",
-            "price_eur": 685,
-            "price_range_eur": [650, 720],
-            "airlines": "Probable Qatar Airways (via Doha), Turkish Airlines (via Estambul), China Eastern (via Shanghai) o Etihad (via Abu Dhabi) - aerolineas que cubren tanto HND/NRT como NGO desde un mismo hub, permitiendo billete unico open-jaw",
-            "stops": "1 escala cada trayecto",
-            "duration": "Ida ~15-19h; vuelta ~20-24h",
-            "interlining": "Se asume billete unico protegido si se emite en una sola aerolinea; no se pudo confirmar en vivo",
-            "source": "Estimacion por analogia con el precio de referencia BCN-NGO RT (~670 EUR) del usuario, ajustado por intercambiar el tramo de llegada a NGO por llegada a Tokio (mercado mas competitivo). CONFIANZA BAJA: no se pudo verificar ninguna tarifa real especifica para esta combinacion exacta",
-            "is_estimate": true,
-            "confidence": "low"
-          }
-        ]
-      },
-      "two_one_way_tickets": {
-        "best_price_eur": 820,
-        "best_price_date": "2026-07-04",
-        "history": [
-          {
-            "date": "2026-07-04",
-            "price_eur": 820,
-            "price_range_eur": [760, 880],
-            "airlines": "BCN->HND/NRT: China Eastern/Air China/Turkish/Qatar (~380-430 EUR); NGO->BCN: Kiwi.com desde 375 USD, Trip.com T'Way Air 461-470 USD cerca de 15 sep (~380-450 EUR)",
-            "stops": "1 escala en cada tramo",
-            "duration": "Ida ~15-19h; vuelta ~20-24h",
-            "interlining": "Dos billetes solo-ida independientes",
-            "source": "Expedia (BCN-NRT y NGO-BCN route pages) y Kiwi.com (NGO-BCN route page), fetched 2026-07-04",
-            "is_estimate": true,
-            "confidence": "low"
-          }
-        ]
-      }
-    }
-  },
-  "legacy_pre_2026_07_04_generic_categories": {
-    "note": "Estructura anterior a la reorganizacion en 4 combinaciones. Conservada solo como referencia historica; ya no se actualiza.",
-    "open_jaw_single_ticket": {
-      "label": "Open-jaw/multi-city en un solo billete: BCN->NGO + HND/NRT->BCN",
-      "best_price_eur": 1150,
-      "best_price_date": "2026-07-04"
-    },
-    "two_separate_one_way_tickets": {
-      "label": "Dos billetes solo ida por separado: BCN->NGO y HND/NRT->BCN",
-      "best_price_eur": 1900,
-      "best_price_date": "2026-07-04"
-    },
-    "round_trip_plus_shinkansen": {
-      "label": "Round-trip BCN<->HND/NRT + Shinkansen Tokio->Nagoya (~100 EUR)",
-      "best_price_eur": 950,
-      "best_price_date": "2026-07-04"
-    }
+  "return_dates": [
+   "2026-10-13",
+   "2026-10-14",
+   "2026-10-15"
+  ]
+ },
+ "constraints": "Max 1 escala por trayecto, escalas de menos de 5 horas",
+ "last_updated": "2026-07-04",
+ "methodology_note": "Desde 2026-07-04 se rastrean las 4 combinaciones de aeropuertos pedidas, cada una en dos modalidades (billete unico vs dos billetes solo-ida por separado). Intento diario: Trip.com primero, luego Google Flights/Kiwi/Skyscanner. NOTA IMPORTANTE: en la run de 2026-07-04, Trip.com devolvio un challenge anti-bot en su motor de busqueda real, y Google Flights/Kiwi.com/Skyscanner son SPAs que no devuelven tarifas via fetch estatico (se probo tambien un navegador headless con Chromium+Playwright, pero el proxy de red del entorno resetea las conexiones HTTPS salientes hacia esos dominios via navegador, aunque curl si tiene acceso). Por tanto TODOS los precios de hoy son estimaciones derivadas de paginas de aterrizaje/cache de esos mismos sitios (Trip.com route pages, Expedia, Kiwi.com route pages), no cotizaciones en vivo confirmadas. Se marcan is_estimate=true y confidence=\"low\"/\"medium\" segun el caso. Verificar manualmente antes de comprar.",
+ "alerts": [
+  {
+   "date": "2026-07-04",
+   "note": "Los Juegos Asiaticos (20th Asian Games) se celebran en Aichi-Nagoya del 19 de septiembre al 4 de octubre de 2026. El vuelo de ida (16/17 sep) cae 2-3 dias antes de la inauguracion, lo que puede presionar al alza los precios y la disponibilidad de vuelos hacia NGO en esas fechas."
   }
+ ],
+ "combinations": {
+  "combo_1_bcn_ngo__ngo_bcn": {
+   "label": "1. BCN->NGO ida / NGO->BCN vuelta",
+   "ground_transfer_notes": "Sin traslado adicional: vuelo directo desde/hacia Nagoya en ambos extremos del viaje.",
+   "single_ticket": {
+    "best_price_eur": 720,
+    "best_price_date": "2026-07-04",
+    "history": [
+     {
+      "date": "2026-07-04",
+      "price_eur": 720,
+      "price_range_eur": [
+       650,
+       780
+      ],
+      "airlines": "Finnair, via Helsinki (HEL) - unica aerolinea con ruta directa Europa-Nagoya (estacional may-oct 2026), conecta con sus propios vuelos BCN-HEL",
+      "stops": "1 escala cada trayecto (HEL)",
+      "duration": "~16-19h por trayecto (incluye escala)",
+      "interlining": "Billete unico, una sola aerolinea (Finnair), conexion protegida (no es OTA virtual interlining)",
+      "source": "Sin cotizacion en vivo. Estimacion basada en tarifa real comparable (Liubliana-Nagoya via Helsinki, Finnair, 720-780 EUR RT, reservado nov 2025 segun EX-YU Aviation) y en el precio de referencia del usuario (~670 EUR visto en Trip.com)",
+      "is_estimate": true,
+      "confidence": "medium",
+      "caveat": "Verificar en finnair.com que la conexion NGO-HEL-BCN en las fechas exactas de vuelta (13/14/15 oct) se mantenga por debajo de 5h; el horario varia segun el dia."
+     }
+    ]
+   },
+   "two_one_way_tickets": {
+    "best_price_eur": 1150,
+    "best_price_date": "2026-07-04",
+    "history": [
+     {
+      "date": "2026-07-04",
+      "price_eur": 1150,
+      "price_range_eur": [
+       1000,
+       1300
+      ],
+      "airlines": "Finnair via Helsinki, ambos trayectos (BCN->NGO y NGO->BCN comprados como billetes solo-ida independientes)",
+      "stops": "1 escala en cada tramo (HEL)",
+      "duration": "~16-19h por trayecto",
+      "interlining": "Cada uno es un billete solo-ida de una sola aerolinea (protegido en su propio tramo), pero son dos reservas independientes entre si",
+      "source": "Sin cotizacion en vivo. Extrapolado desde la estimacion de ida y vuelta (escenario A) asumiendo penalizacion tipica de billetes solo-ida internacionales (1.4-1.7x del precio RT dividido)",
+      "is_estimate": true,
+      "confidence": "low"
+     }
+    ]
+   }
+  },
+  "combo_2_bcn_ngo__hnd_nrt_bcn": {
+   "label": "2. BCN->NGO ida / HND o NRT->BCN vuelta (open-jaw)",
+   "ground_transfer_notes": "Sin traslado adicional de pago: se aterriza en Nagoya y se sale desde Tokio (HND/NRT), sin necesidad de volver a Nagoya para el vuelo de vuelta. El desplazamiento interno Nagoya->...->Tokio durante el viaje no esta incluido.",
+   "single_ticket": {
+    "best_price_eur": 1050,
+    "best_price_date": "2026-07-04",
+    "history": [
+     {
+      "date": "2026-07-04",
+      "price_eur": 1050,
+      "price_range_eur": [
+       900,
+       1300
+      ],
+      "airlines": "Finnair multi-city/open-jaw: BCN-HEL-NGO ida, HND o NRT-HEL-BCN vuelta (Finnair confirma soporte de open-jaw en su propia web)",
+      "stops": "1 escala cada trayecto (HEL)",
+      "duration": "Ida ~17-19h; vuelta ~16-18h",
+      "interlining": "Billete unico, una sola aerolinea (Finnair), conexion protegida",
+      "source": "Sin cotizacion en vivo (Trip.com bloqueo anti-bot, Google Flights/Kiwi/Skyscanner sin datos via fetch). Estimacion basada en tarifas cacheadas de Expedia/Trip.com para los tramos sueltos equivalentes",
+      "is_estimate": true,
+      "confidence": "low",
+      "caveat": "Los Juegos Asiaticos en Nagoya (19 sep-4 oct 2026) pueden presionar el precio al alza; revisar antes de fechas cercanas al 19 sep."
+     }
+    ]
+   },
+   "two_one_way_tickets": {
+    "best_price_eur": 1075,
+    "best_price_date": "2026-07-04",
+    "history": [
+     {
+      "date": "2026-07-04",
+      "price_eur": 1075,
+      "price_range_eur": [
+       900,
+       1250
+      ],
+      "airlines": "BCN->NGO: Finnair via Helsinki; HND/NRT->BCN: varias opciones (Finnair via HEL, Qatar via DOH, Turkish via IST, Air France/KLM/Lufthansa/Swiss/ITA), HND y NRT con precios similares",
+      "stops": "1 escala en cada tramo",
+      "duration": "Ida ~17-19h; vuelta ~16-18h",
+      "interlining": "Dos billetes solo-ida independientes, cada uno de una sola aerolinea (protegido dentro de su propio tramo)",
+      "source": "Sin cotizacion en vivo. Estimacion desde precios 'desde' cacheados de Expedia (BCN-NGO ~480 EUR, HND/NRT-BCN ~385-410 EUR) mas ajuste al alza por Juegos Asiaticos",
+      "is_estimate": true,
+      "confidence": "low"
+     }
+    ]
+   }
+  },
+  "combo_3_bcn_hndnrt__hndnrt_bcn": {
+   "label": "3. BCN->HND/NRT ida / HND o NRT->BCN vuelta",
+   "ground_transfer_notes": "Sin traslado adicional: vuelo directo desde/hacia Tokio en ambos extremos (se puede entrar por un aeropuerto de Tokio y salir por el otro sin coste de traslado significativo, ambos estan conectados por tren/monorail urbano).",
+   "single_ticket": {
+    "best_price_eur": 740,
+    "best_price_date": "2026-07-04",
+    "history": [
+     {
+      "date": "2026-07-04",
+      "price_eur": 740,
+      "price_range_eur": [
+       700,
+       780
+      ],
+      "airlines": "Air China via Beijing (PEK), conexion de ~4-5h cada trayecto; alternativa Etihad via Abu Dhabi (~2h conexion, precio algo mas alto)",
+      "stops": "1 escala cada trayecto",
+      "duration": "~18-19h por trayecto (incluye escala)",
+      "interlining": "Billete unico, una sola aerolinea, conexion protegida",
+      "source": "Trip.com (es.trip.com/flights/barcelona-to-tokyo/), fila real encontrada: Air China, 3-9 sep, 578 EUR (viaje corto de referencia) y medias mensuales cacheadas (sep 877 EUR, oct 812 EUR). Ajustado a la baja para fechas y duracion de viaje reales. Precio final es estimacion, no cotizacion exacta para estas fechas",
+      "is_estimate": true,
+      "confidence": "medium"
+     }
+    ]
+   },
+   "two_one_way_tickets": {
+    "best_price_eur": 775,
+    "best_price_date": "2026-07-04",
+    "history": [
+     {
+      "date": "2026-07-04",
+      "price_eur": 775,
+      "price_range_eur": [
+       750,
+       800
+      ],
+      "airlines": "Air China via Beijing, ambos trayectos, comprados como solo-ida independientes",
+      "stops": "1 escala en cada tramo (~4-5h)",
+      "duration": "~18-19h por trayecto",
+      "interlining": "Dos billetes solo-ida independientes, cada uno de una sola aerolinea",
+      "source": "Trip.com (es.trip.com), filas reales cacheadas: BCN->TYO desde 357-368 EUR (Air China/Etihad, fechas cercanas ago-sep), TYO->BCN estimado por simetria en 390-420 EUR (China Eastern encontrado pero con escalas >5h, descartado)",
+      "is_estimate": true,
+      "confidence": "low"
+     }
+    ]
+   }
+  },
+  "combo_4_bcn_hndnrt__ngo_bcn": {
+   "label": "4. BCN->HND/NRT ida / NGO->BCN vuelta (open-jaw)",
+   "ground_transfer_notes": "Vuelta desde NGO implica traslado terrestre desde donde termine el viaje (zona de Tokio/Kanto) hasta Nagoya para el vuelo de salida (p.ej. Shinkansen Tokio->Nagoya ~1h40, coste no incluido en el precio del vuelo).",
+   "single_ticket": {
+    "best_price_eur": 685,
+    "best_price_date": "2026-07-04",
+    "history": [
+     {
+      "date": "2026-07-04",
+      "price_eur": 685,
+      "price_range_eur": [
+       650,
+       720
+      ],
+      "airlines": "Probable Qatar Airways (via Doha), Turkish Airlines (via Estambul), China Eastern (via Shanghai) o Etihad (via Abu Dhabi) - aerolineas que cubren tanto HND/NRT como NGO desde un mismo hub, permitiendo billete unico open-jaw",
+      "stops": "1 escala cada trayecto",
+      "duration": "Ida ~15-19h; vuelta ~20-24h",
+      "interlining": "Se asume billete unico protegido si se emite en una sola aerolinea; no se pudo confirmar en vivo",
+      "source": "Estimacion por analogia con el precio de referencia BCN-NGO RT (~670 EUR) del usuario, ajustado por intercambiar el tramo de llegada a NGO por llegada a Tokio (mercado mas competitivo). CONFIANZA BAJA: no se pudo verificar ninguna tarifa real especifica para esta combinacion exacta",
+      "is_estimate": true,
+      "confidence": "low"
+     }
+    ]
+   },
+   "two_one_way_tickets": {
+    "best_price_eur": 820,
+    "best_price_date": "2026-07-04",
+    "history": [
+     {
+      "date": "2026-07-04",
+      "price_eur": 820,
+      "price_range_eur": [
+       760,
+       880
+      ],
+      "airlines": "BCN->HND/NRT: China Eastern/Air China/Turkish/Qatar (~380-430 EUR); NGO->BCN: Kiwi.com desde 375 USD, Trip.com T'Way Air 461-470 USD cerca de 15 sep (~380-450 EUR)",
+      "stops": "1 escala en cada tramo",
+      "duration": "Ida ~15-19h; vuelta ~20-24h",
+      "interlining": "Dos billetes solo-ida independientes",
+      "source": "Expedia (BCN-NRT y NGO-BCN route pages) y Kiwi.com (NGO-BCN route page), fetched 2026-07-04",
+      "is_estimate": true,
+      "confidence": "low"
+     }
+    ]
+   }
+  }
+ },
+ "legacy_pre_2026_07_04_generic_categories": {
+  "note": "Estructura anterior a la reorganizacion en 4 combinaciones. Conservada solo como referencia historica; ya no se actualiza.",
+  "open_jaw_single_ticket": {
+   "label": "Open-jaw/multi-city en un solo billete: BCN->NGO + HND/NRT->BCN",
+   "best_price_eur": 1150,
+   "best_price_date": "2026-07-04"
+  },
+  "two_separate_one_way_tickets": {
+   "label": "Dos billetes solo ida por separado: BCN->NGO y HND/NRT->BCN",
+   "best_price_eur": 1900,
+   "best_price_date": "2026-07-04"
+  },
+  "round_trip_plus_shinkansen": {
+   "label": "Round-trip BCN<->HND/NRT + Shinkansen Tokio->Nagoya (~100 EUR)",
+   "best_price_eur": 950,
+   "best_price_date": "2026-07-04"
+  }
+ },
+ "meta": {
+  "currency": "EUR",
+  "last_run": "2026-07-05"
+ },
+ "combos": {
+  "1_bcn-ngo_ngo-bcn": {
+   "single": {
+    "best": null,
+    "history": []
+   },
+   "two_oneways": {
+    "best": null,
+    "history": []
+   }
+  },
+  "2_bcn-ngo_tyo-bcn": {
+   "single": {
+    "best": {
+     "date": "2026-07-05",
+     "price": 733.0,
+     "source": "trip.com",
+     "airlines": [
+      "China Eastern Airlines"
+     ],
+     "out_date": "2026-09-16",
+     "ret_date": "2026-10-13"
+    },
+    "history": [
+     {
+      "date": "2026-07-05",
+      "price": 733.0,
+      "source": "trip.com",
+      "airlines": [
+       "China Eastern Airlines"
+      ],
+      "detail": "BCN → PVG → NGO · sale 16/09 10:55, llega 17/09 12:35 (18h40, escala 3h45); vuelta 13/10 (horario n/d, precio total incluido)",
+      "virtual_interlining": false,
+      "out_date": "2026-09-16",
+      "ret_date": "2026-10-13"
+     }
+    ]
+   },
+   "two_oneways": {
+    "best": {
+     "date": "2026-07-05",
+     "price": 1519.0,
+     "source": "google-flights",
+     "airlines": [
+      "Asiana Airlines",
+      "Etihad",
+      "Korean Air"
+     ],
+     "out_date": "2026-09-16",
+     "ret_date": "2026-10-14"
+    },
+    "history": [
+     {
+      "date": "2026-07-05",
+      "price": 1519.0,
+      "source": "google-flights",
+      "airlines": [
+       "Asiana Airlines",
+       "Etihad",
+       "Korean Air"
+      ],
+      "detail": "BCN → ICN → NGO · sale 16/09 20:50, llega 17/09 21:00 (17h10, escala 2h40); NRT → AUH → BCN · sale 14/10 18:00, llega 15/10 07:35 (20h35, escala 2h10)",
+      "virtual_interlining": true,
+      "out_date": "2026-09-16",
+      "ret_date": "2026-10-14"
+     }
+    ]
+   }
+  },
+  "3_bcn-tyo_tyo-bcn": {
+   "single": {
+    "best": {
+     "date": "2026-07-05",
+     "price": 781.0,
+     "source": "trip.com",
+     "airlines": [
+      "China Eastern Airlines"
+     ],
+     "out_date": "2026-09-17",
+     "ret_date": "2026-10-14"
+    },
+    "history": [
+     {
+      "date": "2026-07-05",
+      "price": 781.0,
+      "source": "trip.com",
+      "airlines": [
+       "China Eastern Airlines"
+      ],
+      "detail": "BCN → PVG → NRT · sale 17/09 10:55, llega 18/09 12:50 (18h55, escala 3h40); vuelta 14/10 (horario n/d, precio total incluido)",
+      "virtual_interlining": false,
+      "out_date": "2026-09-17",
+      "ret_date": "2026-10-14"
+     }
+    ]
+   },
+   "two_oneways": {
+    "best": {
+     "date": "2026-07-05",
+     "price": 961.0,
+     "source": "trip.com + google-flights",
+     "airlines": [
+      "Air China",
+      "Etihad"
+     ],
+     "out_date": "2026-09-16",
+     "ret_date": "2026-10-14"
+    },
+    "history": [
+     {
+      "date": "2026-07-05",
+      "price": 961.0,
+      "source": "trip.com + google-flights",
+      "airlines": [
+       "Air China",
+       "Etihad"
+      ],
+      "detail": "BCN → PEK → HND · sale 16/09 12:30, llega 17/09 12:25 (16h55, escala 2h20); NRT → AUH → BCN · sale 14/10 18:00, llega 15/10 07:35 (20h35, escala 2h10)",
+      "virtual_interlining": true,
+      "out_date": "2026-09-16",
+      "ret_date": "2026-10-14"
+     }
+    ]
+   }
+  },
+  "4_bcn-tyo_ngo-bcn": {
+   "single": {
+    "best": {
+     "date": "2026-07-05",
+     "price": 843.0,
+     "source": "trip.com",
+     "airlines": [
+      "China Eastern Airlines",
+      "Shanghai Airlines"
+     ],
+     "out_date": "2026-09-16",
+     "ret_date": "2026-10-13"
+    },
+    "history": [
+     {
+      "date": "2026-07-05",
+      "price": 843.0,
+      "source": "trip.com",
+      "airlines": [
+       "China Eastern Airlines",
+       "Shanghai Airlines"
+      ],
+      "detail": "BCN → PVG → NRT · sale 16/09 10:55, llega 17/09 12:50 (18h55, escala 3h40); vuelta 13/10 (horario n/d, precio total incluido)",
+      "virtual_interlining": false,
+      "out_date": "2026-09-16",
+      "ret_date": "2026-10-13"
+     }
+    ]
+   },
+   "two_oneways": {
+    "best": null,
+    "history": []
+   }
+  }
+ }
 }
