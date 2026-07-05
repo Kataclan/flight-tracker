@@ -5,8 +5,8 @@
     "return_dates": ["2026-10-13", "2026-10-14", "2026-10-15"]
   },
   "constraints": "Max 1 escala por trayecto, escalas de menos de 5 horas",
-  "last_updated": "2026-07-04",
-  "methodology_note": "Desde 2026-07-04 se rastrean las 4 combinaciones de aeropuertos pedidas, cada una en dos modalidades (billete unico vs dos billetes solo-ida por separado). Intento diario: Trip.com primero, luego Google Flights/Kiwi/Skyscanner. NOTA IMPORTANTE: en la run de 2026-07-04, Trip.com devolvio un challenge anti-bot en su motor de busqueda real, y Google Flights/Kiwi.com/Skyscanner son SPAs que no devuelven tarifas via fetch estatico (se probo tambien un navegador headless con Chromium+Playwright, pero el proxy de red del entorno resetea las conexiones HTTPS salientes hacia esos dominios via navegador, aunque curl si tiene acceso). Por tanto TODOS los precios de hoy son estimaciones derivadas de paginas de aterrizaje/cache de esos mismos sitios (Trip.com route pages, Expedia, Kiwi.com route pages), no cotizaciones en vivo confirmadas. Se marcan is_estimate=true y confidence=\"low\"/\"medium\" segun el caso. Verificar manualmente antes de comprar.",
+  "last_updated": "2026-07-05",
+  "methodology_note": "Desde 2026-07-04 se rastrean las 4 combinaciones de aeropuertos pedidas, cada una en dos modalidades (billete unico vs dos billetes solo-ida por separado). Intento diario: Trip.com primero, luego Google Flights/Kiwi/Skyscanner. NOTA IMPORTANTE: en la run de 2026-07-04, Trip.com devolvio un challenge anti-bot en su motor de busqueda real, y Google Flights/Kiwi.com/Skyscanner son SPAs que no devuelven tarifas via fetch estatico (se probo tambien un navegador headless con Chromium+Playwright, pero el proxy de red del entorno resetea las conexiones HTTPS salientes hacia esos dominios via navegador, aunque curl si tiene acceso). Por tanto TODOS los precios de hoy son estimaciones derivadas de paginas de aterrizaje/cache de esos mismos sitios (Trip.com route pages, Expedia, Kiwi.com route pages), no cotizaciones en vivo confirmadas. Se marcan is_estimate=true y confidence=\"low\"/\"medium\" segun el caso. Verificar manualmente antes de comprar. ACTUALIZACION 2026-07-05: mismo bloqueo persiste (Trip.com search real -> HTTP 432 via curl; Google Flights/Kiwi/Skyscanner siguen siendo SPAs vacias via fetch). Sin embargo, hoy se encontraron filas de tarifa reales cacheadas en Trip.com/Expedia para BCN-NGO y BCN-TYO en fechas de sep 2026 (no exactamente 16/17 sep, pero dentro del mismo mes) que muestran a Air China (via Pekin) y China Eastern (via Shanghai) como alternativas validas de 1 escala a Nagoya, mas baratas que la estimacion anterior basada solo en Finnair via Helsinki. Esto corrige a la baja varias estimaciones respecto a ayer; se mantiene confianza media/baja y la recomendacion de verificar en vivo antes de comprar.",
   "alerts": [
     {
       "date": "2026-07-04",
@@ -33,12 +33,25 @@
             "is_estimate": true,
             "confidence": "medium",
             "caveat": "Verificar en finnair.com que la conexion NGO-HEL-BCN en las fechas exactas de vuelta (13/14/15 oct) se mantenga por debajo de 5h; el horario varia segun el dia."
+          },
+          {
+            "date": "2026-07-05",
+            "price_eur": 780,
+            "price_range_eur": [700, 880],
+            "airlines": "Air China via Pekin (PEK) o China Eastern via Shanghai (PVG) como alternativas de 1 escala; tambien Finnair via Helsinki (estacional)",
+            "stops": "1 escala cada trayecto",
+            "duration": "~18-20h por trayecto (incluye escala)",
+            "interlining": "Billete unico, una sola aerolinea, conexion protegida",
+            "source": "Trip.com (es.trip.com/flights/barcelona-to-nagoya/airfares-bcn-ngo/ y .../nagoya-to-barcelona/airfares-ngo-bcn/), medias mensuales cacheadas: RT sep ~877 EUR, RT oct ~812 EUR; ajustado con filas reales de ida sencilla (Air China 383 EUR ida BCN-NGO 3 sep, China Eastern 532 EUR ida NGO-BCN 8 sep)",
+            "is_estimate": true,
+            "confidence": "medium",
+            "caveat": "No hay cotizacion en vivo para las fechas exactas 16/17 sep - 13/14/15 oct; verificar antes de comprar. Precio ligeramente peor que el estimado de ayer (Finnair), no supera el umbral de bajada."
           }
         ]
       },
       "two_one_way_tickets": {
-        "best_price_eur": 1150,
-        "best_price_date": "2026-07-04",
+        "best_price_eur": 920,
+        "best_price_date": "2026-07-05",
         "history": [
           {
             "date": "2026-07-04",
@@ -51,6 +64,19 @@
             "source": "Sin cotizacion en vivo. Extrapolado desde la estimacion de ida y vuelta (escenario A) asumiendo penalizacion tipica de billetes solo-ida internacionales (1.4-1.7x del precio RT dividido)",
             "is_estimate": true,
             "confidence": "low"
+          },
+          {
+            "date": "2026-07-05",
+            "price_eur": 920,
+            "price_range_eur": [850, 1050],
+            "airlines": "BCN->NGO: Air China via Pekin (fila real 383 EUR ida, 3 sep); NGO->BCN: China Eastern via Shanghai (fila real 532 EUR ida, 8 sep), comprados como billetes solo-ida independientes",
+            "stops": "1 escala en cada tramo",
+            "duration": "~18-20h por trayecto",
+            "interlining": "Dos billetes solo-ida independientes, cada uno protegido en su propio tramo",
+            "source": "Trip.com (es.trip.com/flights/barcelona-to-nagoya/airfares-bcn-ngo/ y .../nagoya-to-barcelona/airfares-ngo-bcn/), filas reales cacheadas para fechas de sep 2026 (no exactas 16/17 sep, dentro del mismo mes)",
+            "is_estimate": true,
+            "confidence": "medium",
+            "caveat": "Baja de 230 EUR respecto al estimado de ayer: se debe a que hoy se encontraron anclas reales de tarifa (Air China/China Eastern) en vez de la extrapolacion generica de ayer, no a un cambio real de mercado confirmado. Verificar en vivo antes de comprar."
           }
         ]
       }
@@ -59,8 +85,8 @@
       "label": "2. BCN->NGO ida / HND o NRT->BCN vuelta (open-jaw)",
       "ground_transfer_notes": "Sin traslado adicional de pago: se aterriza en Nagoya y se sale desde Tokio (HND/NRT), sin necesidad de volver a Nagoya para el vuelo de vuelta. El desplazamiento interno Nagoya->...->Tokio durante el viaje no esta incluido.",
       "single_ticket": {
-        "best_price_eur": 1050,
-        "best_price_date": "2026-07-04",
+        "best_price_eur": 830,
+        "best_price_date": "2026-07-05",
         "history": [
           {
             "date": "2026-07-04",
@@ -74,12 +100,25 @@
             "is_estimate": true,
             "confidence": "low",
             "caveat": "Los Juegos Asiaticos en Nagoya (19 sep-4 oct 2026) pueden presionar el precio al alza; revisar antes de fechas cercanas al 19 sep."
+          },
+          {
+            "date": "2026-07-05",
+            "price_eur": 830,
+            "price_range_eur": [760, 920],
+            "airlines": "Multi-city/open-jaw en Air China o China Eastern: BCN-PEK/PVG-NGO ida, HND o NRT-PEK/PVG-BCN vuelta",
+            "stops": "1 escala cada trayecto",
+            "duration": "Ida ~18-20h; vuelta ~18-20h",
+            "interlining": "Billete unico (multi-city), una sola aerolinea si se emite junto, conexion protegida",
+            "source": "Trip.com, combinando filas reales de ida sencilla: BCN->NGO 383 EUR (Air China, 3 sep) + TYO->BCN ~410-420 EUR (Trip.com US 'from $444'/T'Way Air $450/China Eastern $457-461)",
+            "is_estimate": true,
+            "confidence": "low",
+            "caveat": "Baja de 220 EUR respecto a ayer por mejores anclas de tarifa encontradas hoy, no por cambio de mercado confirmado. Los Juegos Asiaticos en Nagoya (19 sep-4 oct) pueden presionar el precio al alza. Verificar en vivo antes de comprar."
           }
         ]
       },
       "two_one_way_tickets": {
-        "best_price_eur": 1075,
-        "best_price_date": "2026-07-04",
+        "best_price_eur": 860,
+        "best_price_date": "2026-07-05",
         "history": [
           {
             "date": "2026-07-04",
@@ -92,6 +131,19 @@
             "source": "Sin cotizacion en vivo. Estimacion desde precios 'desde' cacheados de Expedia (BCN-NGO ~480 EUR, HND/NRT-BCN ~385-410 EUR) mas ajuste al alza por Juegos Asiaticos",
             "is_estimate": true,
             "confidence": "low"
+          },
+          {
+            "date": "2026-07-05",
+            "price_eur": 860,
+            "price_range_eur": [800, 950],
+            "airlines": "BCN->NGO: Air China via Pekin (383 EUR ida, fila real 3 sep); HND/NRT->BCN: China Eastern/T'Way Air/varios via su hub (~410-425 EUR ida)",
+            "stops": "1 escala en cada tramo",
+            "duration": "Ida ~18-20h; vuelta ~18-20h",
+            "interlining": "Dos billetes solo-ida independientes",
+            "source": "Trip.com (BCN-NGO airfares) + Trip.com US (TYO-BCN airfares, 'from $444') + Expedia (HND-BCN 'from $416')",
+            "is_estimate": true,
+            "confidence": "low",
+            "caveat": "Baja de 215 EUR respecto a ayer por mejores anclas de tarifa encontradas hoy, no por cambio de mercado confirmado. Verificar en vivo antes de comprar."
           }
         ]
       }
@@ -100,8 +152,8 @@
       "label": "3. BCN->HND/NRT ida / HND o NRT->BCN vuelta",
       "ground_transfer_notes": "Sin traslado adicional: vuelo directo desde/hacia Tokio en ambos extremos (se puede entrar por un aeropuerto de Tokio y salir por el otro sin coste de traslado significativo, ambos estan conectados por tren/monorail urbano).",
       "single_ticket": {
-        "best_price_eur": 740,
-        "best_price_date": "2026-07-04",
+        "best_price_eur": 735,
+        "best_price_date": "2026-07-05",
         "history": [
           {
             "date": "2026-07-04",
@@ -114,6 +166,19 @@
             "source": "Trip.com (es.trip.com/flights/barcelona-to-tokyo/), fila real encontrada: Air China, 3-9 sep, 578 EUR (viaje corto de referencia) y medias mensuales cacheadas (sep 877 EUR, oct 812 EUR). Ajustado a la baja para fechas y duracion de viaje reales. Precio final es estimacion, no cotizacion exacta para estas fechas",
             "is_estimate": true,
             "confidence": "medium"
+          },
+          {
+            "date": "2026-07-05",
+            "price_eur": 735,
+            "price_range_eur": [680, 800],
+            "airlines": "Air China via Pekin (PEK); alternativa China Eastern via Shanghai (PVG)",
+            "stops": "1 escala cada trayecto",
+            "duration": "~18-19h por trayecto (incluye escala)",
+            "interlining": "Billete unico, una sola aerolinea, conexion protegida",
+            "source": "Trip.com (es.trip.com/flights/barcelona-to-tokyo/airfares-bcn-tyo/), fila real: Air China BCN-HND 3-7 sep 578 EUR (viaje corto de referencia, 23% dcto de 750 EUR) y medias mensuales cacheadas (sep RT 877 EUR, ida sencilla sep 529 EUR); Expedia BCN-NRT: China Eastern RT 8 sep-8 dic 794 USD (~730 EUR)",
+            "is_estimate": true,
+            "confidence": "medium",
+            "caveat": "Sin cambio significativo respecto a ayer. Verificar en vivo antes de comprar."
           }
         ]
       },
@@ -132,6 +197,19 @@
             "source": "Trip.com (es.trip.com), filas reales cacheadas: BCN->TYO desde 357-368 EUR (Air China/Etihad, fechas cercanas ago-sep), TYO->BCN estimado por simetria en 390-420 EUR (China Eastern encontrado pero con escalas >5h, descartado)",
             "is_estimate": true,
             "confidence": "low"
+          },
+          {
+            "date": "2026-07-05",
+            "price_eur": 780,
+            "price_range_eur": [730, 850],
+            "airlines": "BCN->TYO: Air China via Pekin (354-357 EUR ida, fila real 2-3 sep); TYO->BCN: T'Way Air/China Eastern (~410-425 EUR ida, filas reales de Trip.com/Expedia)",
+            "stops": "1 escala en cada tramo",
+            "duration": "~18-19h por trayecto",
+            "interlining": "Dos billetes solo-ida independientes, cada uno de una sola aerolinea",
+            "source": "Trip.com (BCN-TYO airfares, TYO-BCN airfares) y Expedia (HND-BCN, NRT-BCN)",
+            "is_estimate": true,
+            "confidence": "low",
+            "caveat": "Sin cambio significativo respecto a ayer. Verificar en vivo antes de comprar."
           }
         ]
       }
@@ -154,6 +232,19 @@
             "source": "Estimacion por analogia con el precio de referencia BCN-NGO RT (~670 EUR) del usuario, ajustado por intercambiar el tramo de llegada a NGO por llegada a Tokio (mercado mas competitivo). CONFIANZA BAJA: no se pudo verificar ninguna tarifa real especifica para esta combinacion exacta",
             "is_estimate": true,
             "confidence": "low"
+          },
+          {
+            "date": "2026-07-05",
+            "price_eur": 720,
+            "price_range_eur": [680, 800],
+            "airlines": "Multi-city/open-jaw en China Eastern via Shanghai (PVG): BCN-PVG-HND/NRT ida, NGO-PVG-BCN vuelta; alternativa Air China via Pekin",
+            "stops": "1 escala cada trayecto",
+            "duration": "Ida ~18-20h; vuelta ~18-20h",
+            "interlining": "Billete unico (multi-city) si se emite con una sola aerolinea, conexion protegida; no confirmado en vivo",
+            "source": "Trip.com/Expedia, combinando filas reales de ida sencilla: BCN->TYO 354-357 EUR (Air China, fila real 2-3 sep) + NGO->BCN 532 EUR (China Eastern, fila real 8 sep)",
+            "is_estimate": true,
+            "confidence": "low",
+            "caveat": "Ligeramente mas caro que la estimacion de ayer (que era una analogia sin ancla real); hoy se usan anclas de tarifa reales de ida sencilla, mas fiables aunque para fechas distintas a las exactas del viaje. Verificar en vivo antes de comprar."
           }
         ]
       },
@@ -172,6 +263,19 @@
             "source": "Expedia (BCN-NRT y NGO-BCN route pages) y Kiwi.com (NGO-BCN route page), fetched 2026-07-04",
             "is_estimate": true,
             "confidence": "low"
+          },
+          {
+            "date": "2026-07-05",
+            "price_eur": 870,
+            "price_range_eur": [800, 950],
+            "airlines": "BCN->HND/NRT: Air China via Pekin (354-357 EUR ida, fila real 2-3 sep); NGO->BCN: China Eastern via Shanghai (532 EUR ida, fila real 8 sep)",
+            "stops": "1 escala en cada tramo",
+            "duration": "Ida ~18-20h; vuelta ~18-20h",
+            "interlining": "Dos billetes solo-ida independientes",
+            "source": "Trip.com (BCN-TYO airfares y NGO-BCN airfares)",
+            "is_estimate": true,
+            "confidence": "low",
+            "caveat": "Algo mas caro que la estimacion de ayer al usar anclas reales de ida sencilla en vez de una extrapolacion generica. Verificar en vivo antes de comprar."
           }
         ]
       }
