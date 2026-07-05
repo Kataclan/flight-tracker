@@ -1,0 +1,13 @@
+{
+ "date": "2026-07-05",
+ "send_email": true,
+ "reasons": [
+  "Barcelona ↔ Belgrado (Serbia) (billete único) por debajo del umbral de compra: 164€ < 250€",
+  "Barcelona ↔ Belgrado (Serbia) (2 solo-ida) por debajo del umbral de compra: 168€ < 250€"
+ ],
+ "recommendation": "**COMPRAR YA**: hay opción a 164€, por debajo del umbral de 250€.",
+ "source_status": {
+  "trip.com": "OK (172 itinerarios, 37/45 búsquedas vacías)",
+  "google-flights": "OK (189 itinerarios)"
+ }
+}

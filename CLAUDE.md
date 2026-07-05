@@ -1,8 +1,15 @@
-# flight-tracker — BCN ↔ Japón (sep/oct 2026)
+# flight-tracker — rastreadores diarios de precios de vuelos
 
-Rastreador diario de precios de vuelos. **Todo el trabajo pesado lo hace
+Rastreadores diarios de precios. **Todo el trabajo pesado lo hace
 `run_tracker.py`** — la rutina NO debe buscar precios manualmente con WebFetch
 ni agentes: ejecuta el script, lee sus salidas y decide el email.
+
+Dos trackers activos (uno por config; mismos pasos para ambos):
+
+| Tracker | Config | Salidas | Qué es |
+|---|---|---|---|
+| Japón | `config.json` | `prices.json`, `report.md`, `alert.json` | BCN↔Japón sep/oct 2026, 1 pax, 4 combos NGO/TYO × 2 modalidades |
+| Balcanes | `config_balkans.json` | `prices_balkans.json`, `report_balkans.md`, `alert_balkans.json` | BCN↔Belgrado/Skopje/Ohrid, 2ª semana sep 2026, 2 pax, decidir destino por precio |
 
 ## Pasos de la rutina diaria
 
@@ -13,36 +20,40 @@ ni agentes: ejecuta el script, lee sus salidas y decide el email.
    .venv/bin/python -m playwright install chromium
    ```
 
-2. **Ejecutar:**
+2. **Ejecutar (ambos trackers):**
    ```bash
    .venv/bin/python run_tracker.py
+   .venv/bin/python run_tracker.py --config config_balkans.json
    ```
-   - Tarda ~5-10 min (34 búsquedas × 2 fuentes). Exit 0 = OK; exit 2 = ninguna
-     fuente devolvió datos (NO tocar prices.json, avisar del fallo).
+   - Cada uno tarda ~5-10 min. Exit 0 = OK; exit 2 = ninguna
+     fuente devolvió datos (NO tocar el prices*.json correspondiente, avisar del fallo).
    - Si Playwright/Chromium no funciona en el entorno (proxy que corta HTTPS
      del navegador), probar `--source google` (solo HTTP, sin navegador, suele
      pasar proxies). Indicar en el email que Trip.com no estuvo disponible.
 
-3. **Salidas** (generadas por el script, no editarlas a mano):
-   - `report.md` — tabla comparativa completa con fuente, tendencia y recomendación.
-   - `alert.json` — `send_email` (bool) + `reasons` + `recommendation`.
-   - `prices.json` — histórico actualizado (mejor precio + serie diaria por
+3. **Salidas por tracker** (generadas por el script, no editarlas a mano):
+   - `report*.md` — tabla comparativa completa con fuente, tendencia y recomendación.
+   - `alert*.json` — `send_email` (bool) + `reasons` + `recommendation`.
+   - `prices*.json` — histórico actualizado (mejor precio + serie diaria por
      combinación × modalidad).
 
 4. **Commit a `main`** (sí, directamente a main — decisión del usuario):
    ```bash
-   git add prices.json report.md alert.json && git commit -m "prices: $(date +%F)" && git push origin main
+   git add prices*.json report*.md alert*.json && git commit -m "prices: $(date +%F)" && git push origin main
    ```
 
-5. **Email**: enviar SOLO si `alert.json:send_email == true`. El cuerpo debe
-   incluir la tabla de `report.md` (ya trae fuente, fecha, Δ vs mejor histórico,
-   Δ vs semana anterior y recomendación). Los motivos están en `reasons`.
+5. **Email**: enviar SOLO si algún `alert*.json:send_email == true`. Un único
+   email con las secciones de los trackers que alertaron; cuerpo = tabla de su
+   `report*.md` (ya trae fuente, fecha, Δ vs mejor histórico, Δ vs semana
+   anterior y recomendación). Los motivos están en `reasons`.
 
 ## Qué busca el script
 
-- Ida 16-17 sep 2026, vuelta 13-15 oct 2026; 4 combinaciones de aeropuertos
-  (NGO/TYO en cada sentido) × 2 modalidades (billete único RT/open-jaw y
-  2 solo-ida). Definido en `config.json` (fechas, umbrales, notas de traslado).
+- Cada config define fechas, pasajeros, umbrales, combos y notas de traslado.
+  Modalidades siempre: billete único (RT/open-jaw) y 2 solo-ida.
+- Japón: ida 16-17 sep 2026, vuelta 13-15 oct 2026; 4 combinaciones NGO/TYO.
+- Balcanes: ida 5-7 sep 2026, vuelta 12-14 sep 2026; BEG, SKP y OHD; precios
+  totales para 2 adultos. Objetivo: comparar destinos, no solo abaratar.
 - Filtros: máx 1 escala por trayecto, máx 5 h de espera. Si todo queda
   descartado, el informe muestra la mejor opción descartada y por qué.
 - Fuentes: **Trip.com** (primaria, vía Playwright reescribiendo el body del

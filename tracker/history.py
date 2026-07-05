@@ -12,6 +12,10 @@ def load(path: Path) -> dict:
     return data
 
 
+def load_empty() -> dict:
+    return {"meta": {"currency": "EUR"}, "combos": {}}
+
+
 def record(data: dict, run_date: str, combo_id: str, modality: str,
            entry: dict | None) -> dict:
     """Append today's entry; update best. Returns comparison info

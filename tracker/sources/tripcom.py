@@ -30,7 +30,7 @@ UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
 TRIP_TYPE = {1: "ow", 2: "rt", 4: "mt"}
 
 
-def _base_url(journeys: list[dict]) -> str:
+def _base_url(journeys: list[dict], adults: int = 1) -> str:
     j0 = journeys[0]
     url = (f"https://www.trip.com/flights/showfarefirst?dcity={j0['from'].lower()}"
            f"&acity={j0['to'].lower()}&ddate={j0['date']}")
@@ -38,7 +38,7 @@ def _base_url(journeys: list[dict]) -> str:
         url += f"&rdate={journeys[-1]['date']}&triptype=rt"
     else:
         url += "&triptype=ow"
-    return url + "&class=y&quantity=1&locale=en-XX&curr=EUR"
+    return url + f"&class=y&quantity={adults}&locale=en-XX&curr=EUR"
 
 
 def _journey_payload(journeys: list[dict]) -> list[dict]:
@@ -122,7 +122,7 @@ def _to_itineraries(data: dict) -> list[Itinerary]:
 
 
 async def _run_query(browser, journeys: list[dict], trip_type: int,
-                     timeout_s: int = 45) -> list[Itinerary]:
+                     adults: int = 1, timeout_s: int = 45) -> list[Itinerary]:
     ctx = await browser.new_context(locale="en-US", user_agent=UA,
                                     viewport={"width": 1440, "height": 900})
     page = await ctx.new_page()
@@ -134,6 +134,8 @@ async def _run_query(browser, journeys: list[dict], trip_type: int,
             sc = body["searchCriteria"]
             sc["tripType"] = trip_type
             sc["journeyInfoTypes"] = _journey_payload(journeys)
+            sc["passengerInfoType"] = {"adultCount": adults, "childCount": 0,
+                                       "infantCount": 0}
             await route.continue_(post_data=json.dumps(body))
         except Exception:
             await route.continue_()
@@ -148,7 +150,7 @@ async def _run_query(browser, journeys: list[dict], trip_type: int,
     await page.route("**/FlightListSearchSSE*", rewrite)
     page.on("response", on_response)
     try:
-        await page.goto(_base_url(journeys), wait_until="domcontentloaded",
+        await page.goto(_base_url(journeys, adults), wait_until="domcontentloaded",
                         timeout=timeout_s * 1000)
         waited = 0
         while waited < timeout_s:
@@ -181,6 +183,7 @@ async def _run_query(browser, journeys: list[dict], trip_type: int,
 
 async def search_many(queries: list[tuple[list[dict], int]],
                       concurrency: int = 3,
+                      adults: int = 1,
                       headless: bool = True) -> list[list[Itinerary]]:
     """queries: list of (journeys, trip_type). journeys item:
     {"from": "BCN", "to": "NGO", "date": "2026-09-16"}"""
@@ -195,7 +198,7 @@ async def search_many(queries: list[tuple[list[dict], int]],
             async with sem:
                 for attempt in (1, 2):
                     try:
-                        r = await _run_query(browser, journeys, trip_type)
+                        r = await _run_query(browser, journeys, trip_type, adults)
                         if r:
                             results[i] = r
                             return
@@ -210,5 +213,6 @@ async def search_many(queries: list[tuple[list[dict], int]],
     return results
 
 
-def search_many_sync(queries, concurrency: int = 3) -> list[list[Itinerary]]:
-    return asyncio.run(search_many(queries, concurrency=concurrency))
+def search_many_sync(queries, concurrency: int = 3,
+                     adults: int = 1) -> list[list[Itinerary]]:
+    return asyncio.run(search_many(queries, concurrency=concurrency, adults=adults))

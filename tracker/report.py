@@ -43,8 +43,12 @@ def build(run_date: str, cfg: dict, results: dict, comparisons: dict,
     th = cfg["thresholds"]
     weekday = dt.date.fromisoformat(run_date).weekday()
     reasons: list[str] = []
-    lines = [f"# Vuelos BCN ↔ Japón — {run_date}", ""]
+    title = cfg.get("title", "Vuelos BCN ↔ Japón")
+    pax = cfg.get("passengers", 1)
+    lines = [f"# {title} — {run_date}", ""]
     lines.append("Fuentes: " + ", ".join(f"{k}: {v}" for k, v in source_status.items()))
+    if pax > 1:
+        lines.append(f"\nPrecios totales para {pax} pasajeros.")
     lines.append("")
     lines.append("| Combinación | Modalidad | Precio | Aerolíneas | Detalle | VI | Fuente | Δ vs mejor | Δ vs semana |")
     lines.append("|---|---|---|---|---|---|---|---|---|")
@@ -75,7 +79,8 @@ def build(run_date: str, cfg: dict, results: dict, comparisons: dict,
                 f"{', '.join(e['airlines'])} | {e['detail']} | "
                 f"{'⚠️ sí' if e['virtual_interlining'] else 'no'} | {e['source']} | "
                 f"{_delta(d_best)} | {_delta(d_week)} |")
-        lines.append(f"| ↳ _{combo['transfer_note']}_ | | | | | | | | |")
+        if combo.get("transfer_note"):
+            lines.append(f"| ↳ _{combo['transfer_note']}_ | | | | | | | | |")
 
     if weekday == th["weekly_summary_weekday"]:
         reasons.append("resumen semanal (lunes)")

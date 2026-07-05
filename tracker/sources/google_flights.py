@@ -107,14 +107,14 @@ def _parse_payload(payload) -> list[Itinerary]:
 
 
 def search(journeys: list[dict], trip_type: int, max_stops: int = 1,
-           retries: int = 2) -> list[Itinerary]:
+           adults: int = 1, retries: int = 2) -> list[Itinerary]:
     """journeys item: {"from": "BCN", "to": "NGO", "date": "2026-09-16"}"""
     q = create_query(
         flights=[FlightQuery(date=j["date"], from_airport=j["from"],
                              to_airport=j["to"]) for j in journeys],
         trip=TRIP_TYPE[trip_type],
         seat="economy",
-        passengers=Passengers(adults=1),
+        passengers=Passengers(adults=adults),
         currency="EUR",
         language="en",
         max_stops=max_stops,

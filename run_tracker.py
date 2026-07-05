@@ -43,10 +43,10 @@ def merge_two_oneways(out_opts: list[Itinerary], ret_opts: list[Itinerary],
     )
 
 
-def run_source_trip(single_qs, ow_qs, concurrency) -> tuple[dict, dict, str]:
+def run_source_trip(single_qs, ow_qs, concurrency, adults) -> tuple[dict, dict, str]:
     queries = [(q["journeys"], q["trip_type"]) for q in single_qs + ow_qs]
     try:
-        res = tripcom.search_many_sync(queries, concurrency=concurrency)
+        res = tripcom.search_many_sync(queries, concurrency=concurrency, adults=adults)
     except Exception as e:
         log.error("trip.com source failed entirely: %s", e)
         return {}, {}, f"FALLO ({e})"
@@ -62,12 +62,13 @@ def run_source_trip(single_qs, ow_qs, concurrency) -> tuple[dict, dict, str]:
     return singles, oneways, f"OK ({n} itinerarios, {empty}/{len(res)} búsquedas vacías)"
 
 
-def run_source_google(single_qs, ow_qs, max_stops) -> tuple[dict, dict, str]:
+def run_source_google(single_qs, ow_qs, max_stops, adults) -> tuple[dict, dict, str]:
     singles, oneways = {}, {}
     n = fails = 0
     for q in single_qs + ow_qs:
         try:
-            r = google_flights.search(q["journeys"], q["trip_type"], max_stops=max_stops)
+            r = google_flights.search(q["journeys"], q["trip_type"],
+                                      max_stops=max_stops, adults=adults)
         except Exception as e:
             log.warning("google query failed: %s", e)
             fails += 1
@@ -87,6 +88,8 @@ def run_source_google(single_qs, ow_qs, max_stops) -> tuple[dict, dict, str]:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--config", default="config.json",
+                    help="config file (outputs get suffixed with its 'name' field)")
     ap.add_argument("--quick", action="store_true", help="single date pair smoke test")
     ap.add_argument("--source", choices=["trip", "google", "all"], default="all")
     ap.add_argument("--dry-run", action="store_true")
@@ -98,10 +101,15 @@ def main() -> int:
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO,
                         format="%(asctime)s %(name)s %(levelname)s %(message)s")
 
-    cfg = json.loads((ROOT / "config.json").read_text())
+    cfg = json.loads((ROOT / args.config).read_text())
     run_date = args.date or dt.date.today().isoformat()
     max_stops = cfg["max_stops_per_leg"]
     max_layover = cfg["max_layover_minutes"]
+    adults = cfg.get("passengers", 1)
+    suffix = f"_{cfg['name']}" if cfg.get("name") else ""
+    prices_path = ROOT / f"prices{suffix}.json"
+    report_path = ROOT / f"report{suffix}.md"
+    alert_path = ROOT / f"alert{suffix}.json"
 
     single_qs = plan.single_ticket_queries(cfg, quick=args.quick)
     ow_qs = plan.oneway_queries(cfg, quick=args.quick)
@@ -113,7 +121,7 @@ def main() -> int:
     oneways: dict[tuple, list[Itinerary]] = {}
 
     if args.source in ("trip", "all"):
-        s, o, st = run_source_trip(single_qs, ow_qs, args.concurrency)
+        s, o, st = run_source_trip(single_qs, ow_qs, args.concurrency, adults)
         source_status["trip.com"] = st
         for k, v in s.items():
             singles.setdefault(k, []).extend(v)
@@ -121,7 +129,7 @@ def main() -> int:
             oneways.setdefault(k, []).extend(v)
 
     if args.source in ("google", "all"):
-        s, o, st = run_source_google(single_qs, ow_qs, max_stops)
+        s, o, st = run_source_google(single_qs, ow_qs, max_stops, adults)
         source_status["google-flights"] = st
         for k, v in s.items():
             singles.setdefault(k, []).extend(v)
@@ -131,13 +139,14 @@ def main() -> int:
     got_data = any(singles.values()) or any(oneways.values())
     if not got_data:
         log.error("no source produced any itinerary — aborting without touching history")
-        (ROOT / "alert.json").write_text(json.dumps({
+        alert_path.write_text(json.dumps({
             "date": run_date, "send_email": False,
             "reasons": [], "error": "sin datos de ninguna fuente",
             "source_status": source_status}, ensure_ascii=False, indent=1))
         return 2
 
-    hist = history.load(ROOT / "prices.json")
+    hist = history.load(prices_path) if prices_path.exists() else \
+        history.load_empty()
     results: dict[str, dict] = {}
     comparisons: dict[str, dict] = {}
 
@@ -174,11 +183,11 @@ def main() -> int:
 
     md, alert = report.build(run_date, cfg, results, comparisons, source_status)
     alert["source_status"] = source_status
-    (ROOT / "report.md").write_text(md)
-    (ROOT / "alert.json").write_text(
+    report_path.write_text(md)
+    alert_path.write_text(
         json.dumps(alert, ensure_ascii=False, indent=1) + "\n")
     if not args.dry_run:
-        history.save(hist, ROOT / "prices.json", run_date)
+        history.save(hist, prices_path, run_date)
 
     print(md)
     print(f"send_email={alert['send_email']} reasons={alert['reasons']}")

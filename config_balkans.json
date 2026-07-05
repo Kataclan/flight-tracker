@@ -1,0 +1,35 @@
+{
+  "name": "balkans",
+  "title": "Vuelos BCN ↔ Belgrado / Macedonia",
+  "currency": "EUR",
+  "passengers": 2,
+  "outbound_dates": ["2026-09-05", "2026-09-06", "2026-09-07"],
+  "return_dates": ["2026-09-12", "2026-09-13", "2026-09-14"],
+  "max_stops_per_leg": 1,
+  "max_layover_minutes": 300,
+  "thresholds": {
+    "drop_vs_best_eur": 25,
+    "buy_below_eur": 250,
+    "weekly_summary_weekday": 0
+  },
+  "combos": {
+    "beg": {
+      "label": "Barcelona ↔ Belgrado (Serbia)",
+      "outbound": {"from": "BCN", "to": "BEG"},
+      "return": {"from": "BEG", "to": "BCN"},
+      "transfer_note": ""
+    },
+    "skp": {
+      "label": "Barcelona ↔ Skopje (Macedonia del Norte)",
+      "outbound": {"from": "BCN", "to": "SKP"},
+      "return": {"from": "SKP", "to": "BCN"},
+      "transfer_note": ""
+    },
+    "ohd": {
+      "label": "Barcelona ↔ Ohrid (Macedonia del Norte)",
+      "outbound": {"from": "BCN", "to": "OHD"},
+      "return": {"from": "OHD", "to": "BCN"},
+      "transfer_note": ""
+    }
+  }
+}
