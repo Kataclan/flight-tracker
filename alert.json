@@ -2,15 +2,12 @@
  "date": "2026-07-06",
  "send_email": true,
  "reasons": [
-  "BCN→NGO ida / HND-NRT→BCN vuelta (2 solo-ida) baja 505€ vs mejor histórico (1519€ → 1014€)",
-  "BCN→HND-NRT ida / HND-NRT→BCN vuelta (billete único) baja 151€ vs mejor histórico (781€ → 630€)",
-  "BCN→HND-NRT ida / HND-NRT→BCN vuelta (billete único) por debajo del umbral de compra: 630€ < 650€",
-  "BCN→HND-NRT ida / NGO→BCN vuelta (billete único) baja 71€ vs mejor histórico (843€ → 772€)",
+  "BCN→HND-NRT ida / HND-NRT→BCN vuelta (billete único) por debajo del umbral de compra: 628€ < 650€",
   "resumen semanal (lunes)"
  ],
- "recommendation": "**COMPRAR YA**: hay opción a 630€, por debajo del umbral de 650€.",
+ "recommendation": "**COMPRAR YA**: hay opción a 628€, por debajo del umbral de 650€.",
  "source_status": {
-  "trip.com": "OK (1478 itinerarios, 0/34 búsquedas vacías)",
-  "google-flights": "OK (136 itinerarios)"
+  "trip.com": "OK (1327 itinerarios, 0/34 búsquedas vacías)",
+  "google-flights": "OK (139 itinerarios)"
  }
 }
