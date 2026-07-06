@@ -1,7 +1,7 @@
 {
  "meta": {
   "currency": "EUR",
-  "last_run": "2026-07-05"
+  "last_run": "2026-07-06"
  },
  "combos": {
   "beg": {
@@ -20,6 +20,18 @@
      {
       "date": "2026-07-05",
       "price": 157.0,
+      "source": "google-flights",
+      "airlines": [
+       "Wizz Air"
+      ],
+      "detail": "BCN → BEG · sale 08/09 22:20, llega 09/09 01:00 (2h40, directo); vuelta 14/09 (horario n/d, precio total incluido)",
+      "virtual_interlining": false,
+      "out_date": "2026-09-08",
+      "ret_date": "2026-09-14"
+     },
+     {
+      "date": "2026-07-06",
+      "price": 164.0,
       "source": "google-flights",
       "airlines": [
        "Wizz Air"
@@ -54,6 +66,18 @@
       "virtual_interlining": true,
       "out_date": "2026-09-08",
       "ret_date": "2026-09-14"
+     },
+     {
+      "date": "2026-07-06",
+      "price": 168.0,
+      "source": "google-flights",
+      "airlines": [
+       "Wizz Air"
+      ],
+      "detail": "BCN → BEG · sale 08/09 22:20, llega 09/09 01:00 (2h40, directo); BEG → BCN · sale 14/09 19:30, llega 14/09 22:15 (2h45, directo)",
+      "virtual_interlining": true,
+      "out_date": "2026-09-08",
+      "ret_date": "2026-09-14"
      }
     ]
    }
@@ -61,8 +85,8 @@
   "skp": {
    "single": {
     "best": {
-     "date": "2026-07-05",
-     "price": 292.0,
+     "date": "2026-07-06",
+     "price": 284.0,
      "source": "google-flights",
      "airlines": [
       "Air Serbia"
@@ -82,13 +106,25 @@
       "virtual_interlining": false,
       "out_date": "2026-09-07",
       "ret_date": "2026-09-12"
+     },
+     {
+      "date": "2026-07-06",
+      "price": 284.0,
+      "source": "google-flights",
+      "airlines": [
+       "Air Serbia"
+      ],
+      "detail": "BCN → BEG → SKP · sale 07/09 20:35, llega 08/09 02:10 (5h35, escala 1h45); vuelta 12/09 (horario n/d, precio total incluido)",
+      "virtual_interlining": false,
+      "out_date": "2026-09-07",
+      "ret_date": "2026-09-12"
      }
     ]
    },
    "two_oneways": {
     "best": {
-     "date": "2026-07-05",
-     "price": 292.0,
+     "date": "2026-07-06",
+     "price": 284.0,
      "source": "google-flights",
      "airlines": [
       "Air Serbia",
@@ -101,6 +137,19 @@
      {
       "date": "2026-07-05",
       "price": 292.0,
+      "source": "google-flights",
+      "airlines": [
+       "Air Serbia",
+       "Wizz Air"
+      ],
+      "detail": "BCN → BEG → SKP · sale 07/09 20:35, llega 08/09 02:10 (5h35, escala 1h45); SKP → BCN · sale 12/09 18:00, llega 12/09 20:50 (2h50, directo)",
+      "virtual_interlining": true,
+      "out_date": "2026-09-07",
+      "ret_date": "2026-09-12"
+     },
+     {
+      "date": "2026-07-06",
+      "price": 284.0,
       "source": "google-flights",
       "airlines": [
        "Air Serbia",
