@@ -7,8 +7,9 @@ export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 cd "$(dirname "$0")"
 
 LOG=daily_run.log
-exec >>"$LOG" 2>&1
+exec > >(tee -a "$LOG") 2>&1
 echo "=== daily_run $(date '+%F %T') ==="
+echo "(cada tracker tarda 5-15 min; el progreso va apareciendo por búsqueda)"
 
 git pull --rebase origin main || echo "WARN: git pull failed, running on local state"
 

@@ -77,7 +77,8 @@ def run_source_trip(single_qs, ow_qs, concurrency, adults) -> tuple[dict, dict, 
 def run_source_google(single_qs, ow_qs, max_stops, adults) -> tuple[dict, dict, str]:
     singles, oneways = {}, {}
     n = fails = 0
-    for q in single_qs + ow_qs:
+    all_qs = single_qs + ow_qs
+    for idx, q in enumerate(all_qs, 1):
         try:
             r = google_flights.search(q["journeys"], q["trip_type"],
                                       max_stops=max_stops, adults=adults)
@@ -86,6 +87,7 @@ def run_source_google(single_qs, ow_qs, max_stops, adults) -> tuple[dict, dict, 
             fails += 1
             continue
         n += len(r)
+        log.info("google %d/%d -> %d itinerarios", idx, len(all_qs), len(r))
         if q["modality"] == "single":
             singles.setdefault(q["combo_id"], []).extend(r)
         else:

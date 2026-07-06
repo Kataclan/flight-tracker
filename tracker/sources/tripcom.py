@@ -193,20 +193,29 @@ async def search_many(queries: list[tuple[list[dict], int]],
         browser = await p.chromium.launch(
             headless=headless, args=["--disable-blink-features=AutomationControlled"])
 
+        done = 0
+
         async def worker(i, q):
+            nonlocal done
             journeys, trip_type = q
+            route = " ".join(f"{j['from']}-{j['to']} {j['date']}" for j in journeys)
             async with sem:
-                for attempt in (1, 2):
-                    try:
-                        r = await _run_query(browser, journeys, trip_type, adults)
-                        if r:
-                            results[i] = r
-                            return
-                        log.info("empty result attempt %d for %s", attempt, journeys)
-                    except Exception as e:
-                        log.warning("trip.com attempt %d failed for %s: %s",
-                                    attempt, journeys, e)
-                    await asyncio.sleep(3)
+                try:
+                    for attempt in (1, 2):
+                        try:
+                            r = await _run_query(browser, journeys, trip_type, adults)
+                            if r:
+                                results[i] = r
+                                return
+                            log.info("empty result attempt %d for %s", attempt, journeys)
+                        except Exception as e:
+                            log.warning("trip.com attempt %d failed for %s: %s",
+                                        attempt, journeys, e)
+                        await asyncio.sleep(3)
+                finally:
+                    done += 1
+                    log.info("trip.com %d/%d: %s -> %d itinerarios",
+                             done, len(queries), route, len(results[i]))
 
         await asyncio.gather(*(worker(i, q) for i, q in enumerate(queries)))
         await browser.close()
