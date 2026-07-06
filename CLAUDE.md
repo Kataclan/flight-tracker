@@ -82,8 +82,8 @@ Dos trackers activos (uno por config; mismos pasos para ambos):
 El entorno cloud de la rutina claude.ai NO tiene red hacia las fuentes (proxy
 corta tanto Chromium como el HTTP impersonado de Google). Por eso:
 
-- **Recogida local**: `daily_run.sh` (launchd `com.alexlauks.flight-tracker`,
-  ~08:15 Madrid en el Mac del usuario) ejecuta ambos trackers y pushea
+- **Recogida local**: el usuario ejecuta `./daily_run.sh` en su Mac (manual,
+  sin job programado — decisión suya); corre ambos trackers y pushea
   `prices*.json`, `report*.md`, `alert*.json` a main. Log: `daily_run.log`.
 - **Notificación cloud**: la rutina (07:00 UTC) lee los `alert*.json` de hoy
   del repo y envía el email si `send_email == true`. Solo intenta ejecutar los
