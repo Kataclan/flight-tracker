@@ -42,6 +42,21 @@ def record(data: dict, run_date: str, combo_id: str, modality: str,
     return {"best_before": best_before, "prev": prev, "week_ago": week_ago}
 
 
+def record_watch(data: dict, run_date: str, watch_id: str,
+                 entry: dict | None) -> dict | None:
+    """Append today's entry for a watched flight ({found: false} when it didn't
+    show up). Returns the previous day's entry (for delta/alerting)."""
+    slot = data.setdefault("watches", {}).setdefault(watch_id, {"history": []})
+    hist = slot["history"]
+    prev = next((h for h in reversed(hist) if h["date"] != run_date), None)
+    entry = {"date": run_date, **(entry or {"found": False})}
+    if hist and hist[-1]["date"] == run_date:
+        hist[-1] = entry
+    else:
+        hist.append(entry)
+    return prev
+
+
 def _days_between(d1: str, d2: str) -> int:
     from datetime import date
     return abs((date.fromisoformat(d2) - date.fromisoformat(d1)).days)
