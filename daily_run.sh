@@ -1,7 +1,6 @@
 #!/bin/zsh
-# Daily local run: Japan tracker + commit/push. Invoked by launchd
-# (com.alexlauks.flight-tracker) each morning; the claude.ai routine then
-# reads the pushed outputs and decides the email.
+# Daily local run: Japan tracker + commit/push. Run manually each morning;
+# outputs (prices/report/alert) end up on main for whoever wants to read them.
 set -u
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 cd "$(dirname "$0")"

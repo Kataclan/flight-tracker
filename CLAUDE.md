@@ -1,8 +1,8 @@
 # flight-tracker — rastreador diario de precios de vuelos
 
 Rastreador diario de precios. **Todo el trabajo pesado lo hace
-`run_tracker.py`** — la rutina NO debe buscar precios manualmente con WebFetch
-ni agentes: ejecuta el script, lee sus salidas y decide el email.
+`run_tracker.py`** — NO buscar precios manualmente con WebFetch ni agentes:
+ejecutar el script y leer sus salidas.
 
 Un tracker activo:
 
@@ -10,7 +10,7 @@ Un tracker activo:
 |---|---|---|---|
 | Japón | `config.json` | `prices.json`, `report.md`, `alert.json` | BCN↔Japón sep/oct 2026, 1 pax, 4 combos NGO/TYO × 2 modalidades |
 
-## Pasos de la rutina diaria
+## Rutina diaria (local, `./daily_run.sh` hace 2-4)
 
 1. **Setup (solo si falta `.venv/`):**
    ```bash
@@ -27,7 +27,7 @@ Un tracker activo:
      fuente devolvió datos (NO tocar `prices.json`, avisar del fallo).
    - Si Playwright/Chromium no funciona en el entorno (proxy que corta HTTPS
      del navegador), probar `--source google` (solo HTTP, sin navegador, suele
-     pasar proxies). Indicar en el email que Trip.com no estuvo disponible.
+     pasar proxies).
 
 3. **Salidas** (generadas por el script, no editarlas a mano):
    - `report.md` — tabla comparativa completa con fuente, tendencia y recomendación.
@@ -40,9 +40,9 @@ Un tracker activo:
    git add prices.json report.md alert.json && git commit -m "prices: $(date +%F)" && git push origin main
    ```
 
-5. **Email**: enviar SOLO si `alert.json:send_email == true`. Cuerpo = tabla de
-   `report.md` (ya trae fuente, fecha, Δ vs mejor histórico, Δ vs semana
-   anterior y recomendación). Los motivos están en `reasons`.
+5. **Alerta**: `alert.json:send_email == true` significa que hay algo que
+   mirar (motivos en `reasons`); el resumen está en la tabla de `report.md`
+   (fuente, fecha, Δ vs mejor histórico, Δ vs semana anterior y recomendación).
 
 ## Qué busca el script
 
@@ -72,14 +72,13 @@ Un tracker activo:
   El precio es correcto; solo falta el detalle de la vuelta.
 - Los precios de ambas fuentes son EUR totales (tasas incluidas).
 
-## Arquitectura de ejecución (desde 2026-07-06)
+## Arquitectura de ejecución (desde 2026-07-07: solo local)
 
-El entorno cloud de la rutina claude.ai NO tiene red hacia las fuentes (proxy
-corta tanto Chromium como el HTTP impersonado de Google). Por eso:
+Todo corre en el Mac del usuario: `./daily_run.sh` (manual, sin job
+programado — decisión suya) ejecuta el tracker y pushea `prices.json`,
+`report.md`, `alert.json` a main. Log: `daily_run.log`.
 
-- **Recogida local**: el usuario ejecuta `./daily_run.sh` en su Mac (manual,
-  sin job programado — decisión suya); corre el tracker y pushea
-  `prices.json`, `report.md`, `alert.json` a main. Log: `daily_run.log`.
-- **Notificación cloud**: la rutina (07:00 UTC) lee el `alert.json` de hoy
-  del repo y envía el email si `send_email == true`. Solo intenta ejecutar el
-  tracker si el job local no dejó datos frescos.
+La antigua rutina cloud de claude.ai se eliminó: su entorno no tenía red
+hacia las fuentes (proxy cortaba Chromium y el HTTP impersonado de Google)
+y gastaba tokens solo para mirar si el repo había cambiado. Si se quiere
+revisar alertas, hacerlo desde una sesión local leyendo `alert.json`.
