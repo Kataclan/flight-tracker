@@ -1,13 +1,13 @@
 {
- "date": "2026-07-06",
+ "date": "2026-07-07",
  "send_email": true,
  "reasons": [
-  "BCN→HND-NRT ida / HND-NRT→BCN vuelta (billete único) por debajo del umbral de compra: 628€ < 650€",
-  "resumen semanal (lunes)"
+  "BCN→HND-NRT ida / HND-NRT→BCN vuelta (2 solo-ida) baja 80€ vs mejor histórico (961€ → 881€)",
+  "vigilado 'Air China BCN→PVG→NRT 16/09 12:50 / vuelta 15/10 (visto a 628€)' sube 45€ vs referencia (628€): ahora 673€"
  ],
- "recommendation": "**COMPRAR YA**: hay opción a 628€, por debajo del umbral de 650€.",
+ "recommendation": "Bajada significativa detectada (mínimo hoy 673€). Vigilar de cerca; comprar si baja de 650€.",
  "source_status": {
-  "trip.com": "OK (1327 itinerarios, 0/34 búsquedas vacías)",
-  "google-flights": "OK (139 itinerarios)"
+  "trip.com": "OK (1301 itinerarios, 0/34 búsquedas vacías)",
+  "google-flights": "OK (135 itinerarios)"
  }
 }
