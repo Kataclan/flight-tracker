@@ -19,7 +19,7 @@ import logging
 import sys
 from pathlib import Path
 
-from tracker import filters, history, plan, report
+from tracker import filters, history, plan, report, watch
 from tracker.models import Itinerary
 from tracker.sources import google_flights, tripcom
 
@@ -195,7 +195,17 @@ def main() -> int:
             entry2 = {"no_data_note": "; ".join(notes)} if notes else None
         results[combo_id]["two_oneways"] = entry2
 
-    md, alert = report.build(run_date, cfg, results, comparisons, source_status)
+    watch_rows = []
+    for w in cfg.get("watches", []):
+        it = watch.find(singles.get(w["combo_id"], []), w["match"])
+        entry = report.describe(it)
+        prev = history.record_watch(hist, run_date, w["id"], entry)
+        watch_rows.append({"watch": w, "entry": entry, "prev": prev})
+        log.info("watch %s: %s", w["id"],
+                 f"{entry['price']:.0f}€" if entry else "no encontrado")
+
+    md, alert = report.build(run_date, cfg, results, comparisons, source_status,
+                             watch_rows)
     alert["source_status"] = source_status
     report_path.write_text(md)
     alert_path.write_text(

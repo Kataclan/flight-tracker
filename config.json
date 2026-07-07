@@ -11,6 +11,21 @@
     "buy_below_eur": 650,
     "weekly_summary_weekday": 0
   },
+  "watches": [
+    {
+      "id": "airchina_bcn_nrt_1609_1510",
+      "label": "Air China BCN→PVG→NRT 16/09 12:50 / vuelta 15/10 (visto a 628€)",
+      "combo_id": "3_bcn-tyo_tyo-bcn",
+      "match": {
+        "airline": "Air China",
+        "out_date": "2026-09-16",
+        "ret_date": "2026-10-15",
+        "via": "PVG"
+      },
+      "baseline_price_eur": 628,
+      "alert_change_eur": 10
+    }
+  ],
   "combos": {
     "1_bcn-ngo_ngo-bcn": {
       "label": "BCN→NGO ida / NGO→BCN vuelta",

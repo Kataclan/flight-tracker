@@ -47,9 +47,11 @@ def describe(it: Itinerary | None) -> dict | None:
 
 
 def build(run_date: str, cfg: dict, results: dict, comparisons: dict,
-          source_status: dict) -> tuple[str, dict]:
+          source_status: dict,
+          watch_rows: list[dict] | None = None) -> tuple[str, dict]:
     """results[combo_id][modality] -> entry dict (from describe()) or None.
     comparisons[combo_id][modality] -> {best_before, prev, week_ago}.
+    watch_rows: [{watch: cfg-dict, entry: describe()|None, prev: hist-entry|None}].
     Returns (markdown, alert)."""
     th = cfg["thresholds"]
     weekday = dt.date.fromisoformat(run_date).weekday()
@@ -92,6 +94,33 @@ def build(run_date: str, cfg: dict, results: dict, comparisons: dict,
                 f"{_delta(d_best)} | {_delta(d_week)} |")
         if combo.get("transfer_note"):
             lines.append(f"| ↳ _{combo['transfer_note']}_ | | | | | | | | |")
+
+    if watch_rows:
+        lines += ["", "## Vuelos vigilados", "",
+                  "| Vuelo | Precio hoy | Δ vs referencia | Δ vs día anterior | Fuente | Detalle |",
+                  "|---|---|---|---|---|---|"]
+        for row in watch_rows:
+            w, e, prev = row["watch"], row["entry"], row["prev"]
+            label = w.get("label", w["id"])
+            ref = w.get("baseline_price_eur")
+            prev_price = prev.get("price") if prev else None
+            if e is None:
+                lines.append(f"| {label} | **no aparece** | | | | posible "
+                             f"agotado/cambio de horario — verificar a mano |")
+                reasons.append(f"vigilado '{label}': hoy NO aparece en los "
+                               f"resultados (¿agotado?) — verificar a mano")
+                continue
+            d_ref = e["price"] - ref if ref is not None else None
+            d_prev = e["price"] - prev_price if prev_price is not None else None
+            lines.append(f"| {label} | **{e['price']:.0f}€** | {_delta(d_ref)} | "
+                         f"{_delta(d_prev)} | {e['source']} | {e['detail']} |")
+            change_th = w.get("alert_change_eur", 10)
+            base = d_prev if d_prev is not None else d_ref
+            if base is not None and abs(base) >= change_th:
+                vs = "día anterior" if d_prev is not None else \
+                    f"referencia ({ref:.0f}€)"
+                reasons.append(f"vigilado '{label}' {'sube' if base > 0 else 'baja'} "
+                               f"{abs(base):.0f}€ vs {vs}: ahora {e['price']:.0f}€")
 
     if weekday == th["weekly_summary_weekday"]:
         reasons.append("resumen semanal (lunes)")

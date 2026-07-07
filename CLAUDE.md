@@ -51,6 +51,12 @@ Un tracker activo:
 - Japón: ida 16-17 sep 2026, vuelta 13-15 oct 2026; 4 combinaciones NGO/TYO.
 - Filtros: máx 1 escala por trayecto, máx 5 h de espera. Si todo queda
   descartado, el informe muestra la mejor opción descartada y por qué.
+- **Vuelos vigilados** (`config.json:watches`): itinerarios concretos
+  (aerolínea + fechas + escala) con serie de precios propia en
+  `prices.json:watches`, aunque no sean los más baratos de su combo. El
+  informe añade la sección "Vuelos vigilados"; alerta si el precio varía ≥
+  `alert_change_eur` vs día anterior (o vs `baseline_price_eur` el primer
+  día) o si el vuelo desaparece de los resultados. Lógica en `tracker/watch.py`.
 - Fuentes: **Trip.com** (primaria, vía Playwright reescribiendo el body del
   POST `FlightListSearchSSE` — ver `tracker/sources/tripcom.py`) y **Google
   Flights** (vía API protobuf `?tfs=`, sin navegador — ver
