@@ -228,7 +228,7 @@
  },
  "meta": {
   "currency": "EUR",
-  "last_run": "2026-07-07"
+  "last_run": "2026-07-09"
  },
  "combos": {
   "1_bcn-ngo_ngo-bcn": {
@@ -267,6 +267,18 @@
       "virtual_interlining": false,
       "out_date": "2026-09-16",
       "ret_date": "2026-10-15"
+     },
+     {
+      "date": "2026-07-09",
+      "price": 715.0,
+      "source": "trip.com",
+      "airlines": [
+       "China Eastern Airlines"
+      ],
+      "detail": "BCN → PVG → NGO · sale 17/09 10:55, llega 18/09 12:35 (18h40, escala 3h45); vuelta 14/10 (horario n/d, precio total incluido)",
+      "virtual_interlining": false,
+      "out_date": "2026-09-17",
+      "ret_date": "2026-10-14"
      }
     ]
    },
@@ -323,6 +335,18 @@
       "virtual_interlining": false,
       "out_date": "2026-09-17",
       "ret_date": "2026-10-14"
+     },
+     {
+      "date": "2026-07-09",
+      "price": 723.0,
+      "source": "trip.com",
+      "airlines": [
+       "China Eastern Airlines"
+      ],
+      "detail": "BCN → PVG → NGO · sale 16/09 10:55, llega 17/09 12:35 (18h40, escala 3h45); vuelta 14/10 (horario n/d, precio total incluido)",
+      "virtual_interlining": false,
+      "out_date": "2026-09-16",
+      "ret_date": "2026-10-14"
      }
     ]
    },
@@ -378,6 +402,19 @@
       "virtual_interlining": true,
       "out_date": "2026-09-17",
       "ret_date": "2026-10-13"
+     },
+     {
+      "date": "2026-07-09",
+      "price": 1011.0,
+      "source": "trip.com + google-flights",
+      "airlines": [
+       "China Eastern Airlines",
+       "Etihad"
+      ],
+      "detail": "BCN → PVG → NGO · sale 17/09 10:55, llega 18/09 12:35 (18h40, escala 3h45); NRT → AUH → BCN · sale 13/10 18:00, llega 14/10 07:35 (20h35, escala 2h10)",
+      "virtual_interlining": true,
+      "out_date": "2026-09-17",
+      "ret_date": "2026-10-13"
      }
     ]
    }
@@ -385,14 +422,14 @@
   "3_bcn-tyo_tyo-bcn": {
    "single": {
     "best": {
-     "date": "2026-07-06",
-     "price": 628.0,
+     "date": "2026-07-09",
+     "price": 623.0,
      "source": "trip.com",
      "airlines": [
       "Air China"
      ],
      "out_date": "2026-09-16",
-     "ret_date": "2026-10-15"
+     "ret_date": "2026-10-13"
     },
     "history": [
      {
@@ -430,17 +467,29 @@
       "virtual_interlining": false,
       "out_date": "2026-09-16",
       "ret_date": "2026-10-15"
+     },
+     {
+      "date": "2026-07-09",
+      "price": 623.0,
+      "source": "trip.com",
+      "airlines": [
+       "Air China"
+      ],
+      "detail": "BCN → PVG → NRT · sale 16/09 12:50, llega 17/09 14:00 (18h10, escala 2h35); vuelta 13/10 (horario n/d, precio total incluido)",
+      "virtual_interlining": false,
+      "out_date": "2026-09-16",
+      "ret_date": "2026-10-13"
      }
     ]
    },
    "two_oneways": {
     "best": {
-     "date": "2026-07-07",
-     "price": 881.0,
-     "source": "trip.com",
+     "date": "2026-07-09",
+     "price": 871.0,
+     "source": "trip.com + google-flights",
      "airlines": [
       "Air China",
-      "Etihad Airways"
+      "Etihad"
      ],
      "out_date": "2026-09-16",
      "ret_date": "2026-10-13"
@@ -484,6 +533,19 @@
       "virtual_interlining": true,
       "out_date": "2026-09-16",
       "ret_date": "2026-10-13"
+     },
+     {
+      "date": "2026-07-09",
+      "price": 871.0,
+      "source": "trip.com + google-flights",
+      "airlines": [
+       "Air China",
+       "Etihad"
+      ],
+      "detail": "BCN → PVG → NRT · sale 16/09 12:50, llega 17/09 14:00 (18h10, escala 2h35); NRT → AUH → BCN · sale 13/10 18:00, llega 14/10 07:35 (20h35, escala 2h10)",
+      "virtual_interlining": true,
+      "out_date": "2026-09-16",
+      "ret_date": "2026-10-13"
      }
     ]
    }
@@ -491,8 +553,8 @@
   "4_bcn-tyo_ngo-bcn": {
    "single": {
     "best": {
-     "date": "2026-07-07",
-     "price": 733.0,
+     "date": "2026-07-09",
+     "price": 700.0,
      "source": "trip.com",
      "airlines": [
       "Air China"
@@ -537,6 +599,18 @@
       "virtual_interlining": false,
       "out_date": "2026-09-16",
       "ret_date": "2026-10-14"
+     },
+     {
+      "date": "2026-07-09",
+      "price": 700.0,
+      "source": "trip.com",
+      "airlines": [
+       "Air China"
+      ],
+      "detail": "BCN → PVG → NRT · sale 16/09 12:50, llega 17/09 14:00 (18h10, escala 2h35); vuelta 14/10 (horario n/d, precio total incluido)",
+      "virtual_interlining": false,
+      "out_date": "2026-09-16",
+      "ret_date": "2026-10-14"
      }
     ]
    },
@@ -552,6 +626,18 @@
     {
      "date": "2026-07-07",
      "price": 673.0,
+     "source": "trip.com",
+     "airlines": [
+      "Air China"
+     ],
+     "detail": "BCN → PVG → NRT · sale 16/09 12:50, llega 17/09 14:00 (18h10, escala 2h35); vuelta 15/10 (horario n/d, precio total incluido)",
+     "virtual_interlining": false,
+     "out_date": "2026-09-16",
+     "ret_date": "2026-10-15"
+    },
+    {
+     "date": "2026-07-09",
+     "price": 633.0,
      "source": "trip.com",
      "airlines": [
       "Air China"
